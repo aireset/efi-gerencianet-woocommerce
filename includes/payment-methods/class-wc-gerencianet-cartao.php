@@ -241,11 +241,19 @@ function init_gerencianet_cartao() {
 						break;
 					case 'line_item':
 						$product     = $item->get_product();
-						$newItem     = array(
-							'name'   => $product->get_name(),
-							'amount' => $item->get_quantity(),
-							'value'  => $product->get_price() * 100,
-						);
+						if(!empty($product->get_price())){
+    						$newItem     = array(
+    							'name'   => $product->get_name(),
+    							'amount' => $item->get_quantity(),
+    							'value'  => $product->get_price() * 100,
+    						);
+						} else {
+    						$newItem     = array(
+    							'name'   => $product->get_name(),
+    							'amount' => $item->get_quantity(),
+    							'value'  => $item->get_total() * 100,
+    						);
+						}
 						$items[]     = $newItem;
 						break;
 					default:

@@ -299,7 +299,11 @@ function init_gerencianet_pix() {
 						break;
 					case 'line_item':
 						$product = $item->get_product();
-						$value += $item->get_quantity() * $product->get_price();
+						if(!empty($product->get_price())){
+						    $value += $item->get_quantity() * $product->get_price();
+						} else {
+						    $value += $item->get_total();
+						}
 						break;
 					default:
 						$product = $item->get_product();
