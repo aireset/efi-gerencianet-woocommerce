@@ -1,4 +1,5 @@
-# Plugin Oficial Gerencianet para Wordpress/Woocommerce
+# Plugin Não-Oficial Gerencianet para Wordpress/Woocommerce
+forked from [gerencianet/gn-api-woocommerce](https://github.com/gerencianet/gn-api-woocommerce)
 
 Receba pagamentos por Boleto bancário, Pix e cartão de crédito em sua loja WooCommerce com a Gerencianet!
 

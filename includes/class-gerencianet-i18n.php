@@ -17,7 +17,7 @@ namespace GN_Includes;
 class Gerencianet_I18n {
 
 
-	public static $textDomain = 'gerencianet-oficial';
+	public static $textDomain = 'gerencianet-aireset';
 
 	/**
 	 * Load the plugin text domain for translation.
@@ -25,7 +25,7 @@ class Gerencianet_I18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'gerencianet-oficial',
+			'gerencianet-aireset',
 			false,
 			GERENCIANET_OFICIAL_PLUGIN_PATH . 'languages/'
 		);

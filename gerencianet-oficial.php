@@ -6,15 +6,15 @@ use GN_Includes\Gerencianet_Activator;
 use GN_Includes\Gerencianet_Deactivator;
 
 /**
- * Plugin Name:       Efí by Gerencianet Oficial
- * Plugin URI:        https://wordpress.org/plugins/woo-gerencianet-official/
- * Description:       Gateway de pagamento Efi by Gerencianet para WooCommerce
- * Version:           2.0.6
- * Author:            Gerencianet
- * Author URI:        https://www.sejaefi.com.br
+ * Plugin Name:       Efí/Gerencianet por Aireset
+ * Plugin URI:        https://wordpress.org/plugins/aireset/
+ * Description:       Gateway de pagamento Efi/Gerencianet por Aireset
+ * Version:           2.0.7
+ * Author:            Aireset
+ * Author URI:        https://aireset.com.br
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       gerencianet-oficial
+ * Text Domain:       gerencianet-aireset
  * Domain Path:       /languages
  * WC requires at least: 5.0.0
  * WC tested up to: 7.4.0

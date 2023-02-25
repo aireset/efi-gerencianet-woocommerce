@@ -434,7 +434,7 @@ function init_gerencianet_boleto() {
 							break;
 					}
 				} else {
-					error_log( 'gerencianet-oficial', 'GERENCIANET :: notification Request : FAIL ' );
+					error_log( 'gerencianet-aireset', 'GERENCIANET :: notification Request : FAIL ' );
 				}
 
 				exit();
