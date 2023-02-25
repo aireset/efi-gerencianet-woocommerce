@@ -18,7 +18,7 @@ switch ( $payment_method ) {
 		// echo "<p>".__("CPF is required!", Gerencianet_I18n::getTextDomain())."</p>";
 		break;
 	case GERENCIANET_BOLETO_ID:
-		echo '<iframe  src=' . esc_url( get_post_meta( $order_id, '_gn_link_responsive', true ) ) . " width='900' height='400'></iframe>";
+		echo '<iframe  src=' . esc_url( get_post_meta( $order_id, '_gn_link_responsive', true ) ) . " width='900' height='1500'></iframe>";
 		break;
 	case GERENCIANET_PIX_ID:
 		$pixCopy = get_post_meta( $order_id, '_gn_pix_copy', true );
