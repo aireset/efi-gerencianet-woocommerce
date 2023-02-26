@@ -1,16 +1,18 @@
 # Plugin Não-Oficial Gerencianet para Wordpress/Woocommerce
 forked from [gerencianet/gn-api-woocommerce](https://github.com/gerencianet/gn-api-woocommerce)
 
-Receba pagamentos por Boleto bancário, Pix e cartão de crédito em sua loja WooCommerce com a Gerencianet!
+Receba pagamentos por Boleto bancário, Pix e cartão de crédito em sua loja WooCommerce com a efí/Gerencianet!
 
 ## Suporte Técnico
-Atenção: Para agilizar o atendimento, abra um ticket informando a falha apresentada. Você pode abrir um ticket [Clicando Aqui!](https://sistema.gerencianet.com.br/tickets/criar/)
+### Atenção: 
+* Para resolução de problemas abra uma issue no nosso [Github](https://github.com/aireset/gn-api-woocommerce), envie print, informações de uso para podermos auxiliar na melhor forma, caso precise suporte direto da Efí, use o plugin oficial.
+* Para agilizar o atendimento, abra um ticket informando a falha apresentada. Você pode abrir um ticket [Clicando Aqui!](https://sistema.gerencianet.com.br/tickets/criar/)
 
 ## Descrição 
 
-Este é o Módulo Oficial de integração fornecido pela [Gerencianet](https://gerencianet.com.br/) para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por boleto bancário, cartão de crédito e/ou Pix. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
+Este Moduloe é um Fork do Módulo Oficial de integração fornecido pela [Efí](https://gerencianet.com.br/) para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por boleto bancário, cartão de crédito e/ou Pix. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
 
-Caso você tenha alguma dúvida ou sugestão, entre em contato conosco pelo site [Gerencianet](https://gerencianet.com.br/fale-conosco/).
+Caso você tenha alguma dúvida ou sugestão, entre em contato pelo site [Efí](https://gerencianet.com.br/fale-conosco/).
 
 ## Requisitos
 

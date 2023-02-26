@@ -1,9 +1,4 @@
 <?php
-namespace Gerencianet_Oficial;
-
-use GN_Includes\Gerencianet_Oficial;
-use GN_Includes\Gerencianet_Activator;
-use GN_Includes\Gerencianet_Deactivator;
 
 /**
  * Plugin Name:       Efí/Gerencianet por Aireset
@@ -18,7 +13,16 @@ use GN_Includes\Gerencianet_Deactivator;
  * Domain Path:       /languages
  * WC requires at least: 5.0.0
  * WC tested up to: 7.4.0
+ * 
+ * Este é um plugin como fork do original, com alterações e ajustes que são usados principalmente nos nossos clientes. 
+ * Se você procura algo para conectar com sua conta da Efí/Gerencianet pode usar este ou o original. 
  */
+
+namespace Gerencianet_Oficial;
+
+use GN_Includes\Gerencianet_Oficial;
+use GN_Includes\Gerencianet_Activator;
+use GN_Includes\Gerencianet_Deactivator;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
