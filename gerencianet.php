@@ -1,24 +1,28 @@
 <?php
+
+/**
+ * Plugin Name:       Efí/Gerencianet por Aireset
+ * Plugin URI:        https://wordpress.org/plugins/aireset/
+ * Description:       Gateway de pagamento Efi/Gerencianet por Aireset
+ * Version:           2.0.7
+ * Author:            Aireset
+ * Author URI:        https://aireset.com.br
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       gerencianet-aireset
+ * Domain Path:       /languages
+ * WC requires at least: 5.0.0
+ * WC tested up to: 7.4.0
+ * 
+ * Este é um plugin como fork do original, com alterações e ajustes que são usados principalmente nos nossos clientes. 
+ * Se você procura algo para conectar com sua conta da Efí/Gerencianet pode usar este ou o original. 
+ */
+
 namespace Gerencianet_Oficial;
 
 use GN_Includes\Gerencianet_Oficial;
 use GN_Includes\Gerencianet_Activator;
 use GN_Includes\Gerencianet_Deactivator;
-
-/**
- * Plugin Name:       Efí by Gerencianet Oficial
- * Plugin URI:        https://wordpress.org/plugins/woo-gerencianet-official/
- * Description:       Gateway de pagamento Efi by Gerencianet para WooCommerce
- * Version:           2.0.7
- * Author:            Efi by Gerencianet
- * Author URI:        https://www.sejaefi.com.br
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       gerencianet-oficial
- * Domain Path:       /languages
- * WC requires at least: 5.0.0
- * WC tested up to: 7.4.0
- */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {

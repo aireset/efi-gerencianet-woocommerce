@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: Efí Bank
+Contributors: Felipe Almeman - Aireset
 Tags: woocommerce, gerencianet, payment, transparent checkout, pix, Boleto, card, brazil, payments brazil, cartão de crédito, efí, efi, efipay, efi bank, efi pay, efípay, efí bank, efí pay
 Requires at least: 5.x
 Tested up to: 6.1
@@ -10,11 +10,14 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Receba pagamentos por Boleto bancário, Pix e cartão de crédito em sua loja WooCommerce com a Gerencianet.
 
 == Suporte Técnico ==
-Atenção: Para agilizar o atendimento, abra um ticket informando a falha apresentada. Você pode abrir um ticket [Clicando Aqui!](https://sistema.gerencianet.com.br/tickets/criar/)
+Atenção: 
+Para resolução de problemas abra uma issue no nosso [Github](https://github.com/aireset/gn-api-woocommerce), envie print, informações de uso para podermos auxiliar na melhor forma, caso precise suporte direto da Efí, use o plugin oficial.
+Para agilizar o atendimento, abra um ticket informando a falha apresentada. Você pode abrir um ticket [Clicando Aqui!](https://sistema.gerencianet.com.br/tickets/criar/)
 
 == Descrição ==
 
-Este é o Módulo Oficial de integração fornecido pela [Gerencianet](https://gerencianet.com.br/) para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por boleto bancário, cartão de crédito e/ou Pix. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
+Este é o Módulo Não-Oficial de integração da Gerencianet para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por boleto bancário, cartão de crédito e/ou Pix. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
+Sendo uma cópia do Módulo Oficial de integração fornecido pela [Gerencianet](https://gerencianet.com.br/) com alterações.
 
 Caso você tenha alguma dúvida ou sugestão, entre em contato conosco pelo site [Gerencianet](https://gerencianet.com.br/fale-conosco/).
 
@@ -26,7 +29,7 @@ Caso você tenha alguma dúvida ou sugestão, entre em contato conosco pelo site
 
 = Instalação automática =
 
-1. Acesse o link em sua loja "Plugins" -> "Adicionar novo" -> No campo de busca, pesquise por "Gerencianet Oficial".
+1. Acesse o link em sua loja "Plugins" -> "Adicionar novo" -> No campo de busca, pesquise por "Gerencianet - Aireset".
 2. Clique em "Instalar agora".
 4. Após a instalação, clique em "Ativar o Plugin".
 5. Configure o plugin em "WooCommerce" > "Configurações" > "Finalizar Compra" > "Gerencianet" e comece a receber pagamentos.

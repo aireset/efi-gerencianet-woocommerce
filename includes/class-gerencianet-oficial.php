@@ -59,7 +59,7 @@ class Gerencianet_Oficial {
 	 */
 	public function __construct() {
 		$this->version     = GERENCIANET_OFICIAL_VERSION;
-		$this->plugin_name = 'gerencianet-oficial';
+		$this->plugin_name = 'gerencianet-aireset';
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the core plugin.
