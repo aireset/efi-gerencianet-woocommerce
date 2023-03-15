@@ -2,14 +2,14 @@
 
 /**
  * Plugin Name:       Efí/Gerencianet por Aireset
- * Plugin URI:        https://wordpress.org/plugins/aireset/
+ * Plugin URI:        https://wordpress.org/plugins/efigerencianet-por-aireset/
  * Description:       Gateway de pagamento Efi/Gerencianet por Aireset
- * Version:           2.0.7
+ * Version:           2.1.0
  * Author:            Aireset
  * Author URI:        https://aireset.com.br
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       gerencianet-aireset
+ * Text Domain:       efigerencianet-por-aireset
  * Domain Path:       /languages
  * WC requires at least: 5.0.0
  * WC tested up to: 7.4.0
@@ -29,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'GERENCIANET_OFICIAL_VERSION', '2.0.6' );
+define( 'GERENCIANET_OFICIAL_VERSION', '2.1.0' );
 define( 'GERENCIANET_BOLETO_ID', 'WC_Gerencianet_Boleto' );
 define( 'GERENCIANET_CARTAO_ID', 'WC_Gerencianet_Cartao' );
 define( 'GERENCIANET_PIX_ID', 'WC_Gerencianet_Pix' );
