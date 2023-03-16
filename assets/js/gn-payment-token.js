@@ -1,7 +1,6 @@
 jQuery(document).ready(function( $ ) {
 
     $( document.body ).on( 'updated_checkout', function(){
-        console.log("loaded-gn-payment");
 
         if(GNTYPE == "gn_sandbox"){
             var s = document.createElement("script");
@@ -68,15 +67,13 @@ jQuery(document).ready(function( $ ) {
         
 
         $gn.ready(function (checkout) {
-            console.log(checkout);
-
             // Gerar Payment Token
             $("#gn_cartao_expiration").on('keyup', function () {
                 let cardNumber = $("#gn_cartao_number").val().replace(/\s/g, '');
                 let cardCvv = $("#gn_cartao_cvv").val();
                 let cardExpiration = $("#gn_cartao_expiration").val().split("/");
 
-                if ($("#gn_cartao_expiration").val().length >= 7) {
+                if ($("#gn_cartao_expiration").val().length >= 7 && cardCvv !== "") {
 
                     Swal.fire({
                         title: 'Por favor, aguarde...',
@@ -86,7 +83,7 @@ jQuery(document).ready(function( $ ) {
 
                     let brand = detectCardType(cardNumber);
 
-                    if (brand != 0) {
+                    if (brand != 0 && cardCvv !== "") {
                         let params = {
                             brand: brand, // bandeira do cartão
                             number: cardNumber, // número do cartão
@@ -94,7 +91,6 @@ jQuery(document).ready(function( $ ) {
                             expiration_month: cardExpiration[0], // mês de vencimento
                             expiration_year: cardExpiration[1] // ano de vencimento
                         }
-                        console.log(params)
                         checkout.getPaymentToken(params,
                             function (error, response) {                            
                                 if (error) {
@@ -106,30 +102,32 @@ jQuery(document).ready(function( $ ) {
                                         'error'
                                     )
                                 } else {
-                                    console.log(response.data.payment_token)
                                     // Trata a resposta
                                     $('#gn_payment_token').val(response.data.payment_token);
                                     swal.close()
                                 }
                             }
                         );
+                    }else {
+                        swal.close()
                     }
                 }
 
 
             });
 
-
-            // 4012 0010 3844 3335
             $("#gn_cartao_number").keyup(function () {
                 let total = document.querySelector("#gn_payment_total").value;
+                total = parseInt(total);
+                total = total * 100;
+
                 let cardNumber = $("#gn_cartao_number").val().replace(/\s/g, '');
                 
                 if (cardNumber.length >= 16) {
                     let brand = detectCardType(cardNumber);
                     if (brand != 0) {                    
                         checkout.getInstallments(
-                            parseInt(total), // valor total da cobrança
+                            total, // valor total da cobrança
                             brand, // bandeira do cartão
                             function (error, response) {
                                 if (error) {

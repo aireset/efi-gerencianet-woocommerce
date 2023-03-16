@@ -1,6 +1,6 @@
 jQuery(function($){
 	$( document.body ).on( 'updated_checkout', function(){
-		console.log("loaded-gn-checkout");
+		// console.log("loaded-gn-checkout");
 
 		let swalCss = $( "<style></style>" ).html( ".colored-toast .swal2-title {color: white;}.colored-toast .swal2-close {color: white;}.colored-toast .swal2-html-container {color: white;}.colored-toast.swal2-icon-error {background-color: #f27474 !important;}" )
 		$( "#gn-checkout-js" ).after( swalCss );

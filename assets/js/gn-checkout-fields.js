@@ -1,7 +1,6 @@
 jQuery( document ).ready(function ($) {
     $( document.body ).on( 'updated_checkout', function(){
-		
-		console.log("loaded-gn-checkout-fields");
+		// console.log("loaded-gn-checkout-fields");
 
 		if (document.getElementById( 'billing_neighborhood' )) {
 			$( "#billing_neighborhood_field" ).addClass( "validate-required" );
