@@ -3,7 +3,7 @@ Contributors: Felipe Almeman - Aireset
 Tags: woocommerce, gerencianet, payment, transparent checkout, pix, Boleto, card, brazil, payments brazil, cartão de crédito, efí, efi, efipay, efi bank, efi pay, efípay, efí bank, efí pay
 Requires at least: 5.x
 Tested up to: 6.1
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
