@@ -57,7 +57,9 @@ function init_gerencianet_boleto() {
 
 			// This hook add the "view payment Methods" button
 			add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this, 'add_view_payment_methods' ) );
-			wp_enqueue_script( 'gn_sweetalert', GERENCIANET_OFICIAL_PLUGIN_URL . 'assets/js/sweetalert.js', array( 'jquery' ), GERENCIANET_OFICIAL_VERSION, false );
+			
+			// wp_enqueue_script( 'gn-sweetalert-js', GERENCIANET_OFICIAL_PLUGIN_URL . 'assets/js/sweetalert.js', ['jquery' ], GERENCIANET_OFICIAL_VERSION, true );
+
 			add_action( 'woocommerce_api_' . strtolower( GERENCIANET_BOLETO_ID ), array( $this, 'webhook' ) );
 		}
 
