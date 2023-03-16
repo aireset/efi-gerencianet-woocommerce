@@ -50,3 +50,10 @@ Caso você tenha alguma dúvida ou sugestão, entre em contato conosco pelo site
 8. Escolha se deseja que o plugin atualize os status dos pedidos da loja automaticamente, de acordo com as notificações de alteração do status da cobrança Gerencianet.
 9. Configure se deseja ativar o Sandbox (ambiente de testes) e Debug.
 10. Recomendamos que antes de disponibilizar pagamentos pela Gerencianet, o lojista realize testes de cobrança com o sandbox(ambiente de testes) ativado para verificar se o procedimento de pagamento está acontecendo conforme esperado.
+
+== Screenshots ==
+
+1-Exemplo de Métodos ativos  screenshot-1.png
+2-Tela do Pix screenshot-2.png
+3-Tela do Boleto screenshot-3.png
+4-Tela do Cartão de Crédito screenshot-4.png
