@@ -21,10 +21,10 @@
 			echo '<iframe  src=' . esc_url( get_post_meta( $order_id, '_gn_link_responsive', true ) ) . " width='900' height='1500'></iframe>";
 			break;
 		case GERENCIANET_PIX_ID:
-			$pixCopy = get_post_meta( $order_id, '_gn_pix_copy', true );
+			$pixCopy = get_post_meta( $order_id, '_pix_copy', true );
 			echo "<h2>Escaneie o QrCode abaixo para pagar</h2>
 					<div style='float:left'>
-						<img src='" . esc_html(get_post_meta( $order_id, '_gn_pix_qrcode', true )) . "' />
+						<img src='" . esc_html(get_post_meta( $order_id, '_pix_qrcode', true )) . "' />
 					</div>
 					<div style='padding: 10px;'>
 						<p style='font-weight: bold;'>Ou copie o Pix Copia e Cola clicando no botão abaixo!</p>

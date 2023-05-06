@@ -2,7 +2,7 @@ jQuery(document).ready(function( $ ) {
 
     $( document.body ).on( 'updated_checkout', function(){
 
-        if(GNTYPE == "gn_sandbox"){
+        if(GNTYPE == "sandbox"){
             var s = document.createElement("script");
             s.type = "text/javascript";
             var v = parseInt(Math.random() * 1000000);

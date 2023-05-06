@@ -25,21 +25,21 @@ jQuery(function($){
 			)
 		}
 
-		if (document.getElementById('gn_pix_cpf_cnpj' )) {
-			$( '#gn_pix_cpf_cnpj' ).keyup(
+		if (document.getElementById('pix_cpf_cnpj' )) {
+			$( '#pix_cpf_cnpj' ).keyup(
 				function () {
-					$( '#gn_pix_cpf_cnpj' ).val().length > 14 ? VMasker(document.querySelector("#gn_pix_cpf_cnpj")).maskPattern("99.999.999/9999-99") : VMasker(document.querySelector("#gn_pix_cpf_cnpj")).maskPattern("999.999.999-99");
+					$( '#pix_cpf_cnpj' ).val().length > 14 ? VMasker(document.querySelector("#pix_cpf_cnpj")).maskPattern("99.999.999/9999-99") : VMasker(document.querySelector("#pix_cpf_cnpj")).maskPattern("999.999.999-99");
 				}
 			)
-			$( '#gn_pix_cpf_cnpj' ).blur(
+			$( '#pix_cpf_cnpj' ).blur(
 				function () {
-					var cpf_cnpj = $( '#gn_pix_cpf_cnpj' ).val();
+					var cpf_cnpj = $( '#pix_cpf_cnpj' ).val();
 
 					if ( ! validate_cpf_cnpj( cpf_cnpj )) {
-						$( '#gn_pix_cpf_cnpj' ).css( 'border', '1px solid red' );
+						$( '#pix_cpf_cnpj' ).css( 'border', '1px solid red' );
 						customError("CPF/CNPJ Inválido");
 					} else {
-						$( '#gn_pix_cpf_cnpj' ).css( 'border', '1px solid green' );
+						$( '#pix_cpf_cnpj' ).css( 'border', '1px solid green' );
 					}
 				}
 			)
@@ -114,7 +114,7 @@ jQuery(function($){
 			$( "#gn_field_birth" ).removeClass( "form-row-last" ).addClass( "form-row-wide" );
 
 			// cpf_cnpj Pix
-			$( '#gn_pix_cpf_cnpj' ).val( $( '#billing_cpf' ).val() )
+			$( '#pix_cpf_cnpj' ).val( $( '#billing_cpf' ).val() )
 			$( '#gn_field_pix' ).hide();
 
 			$( '#billing_cpf' ).keyup(function () {
@@ -129,7 +129,7 @@ jQuery(function($){
 					$( "#gn_field_birth" ).removeClass( "form-row-last" ).addClass( "form-row-wide" );
 
 					// cpf_cnpj Pix
-					$( '#gn_pix_cpf_cnpj' ).val( $( '#billing_cpf' ).val() )
+					$( '#pix_cpf_cnpj' ).val( $( '#billing_cpf' ).val() )
 					$( '#gn_field_pix' ).hide();
 				}
 			)
@@ -148,7 +148,7 @@ jQuery(function($){
 					$( "#gn_field_birth" ).removeClass( "form-row-last" ).addClass( "form-row-wide" );
 
 					// cpf_cnpj Pix
-					$( '#gn_pix_cpf_cnpj' ).val( $( '#billing_cnpj' ).val() )
+					$( '#pix_cpf_cnpj' ).val( $( '#billing_cnpj' ).val() )
 					$( '#gn_field_pix' ).hide();
 				}
 			)

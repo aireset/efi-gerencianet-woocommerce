@@ -23,8 +23,8 @@ function init_gerencianet_cartao()
 
 			$this->id                 = GERENCIANET_CARTAO_ID; // payment gateway plugin ID
 			$this->has_fields         = true; // custom form
-			$this->method_title       = __('Gerencianet - Cartão de Crédito', Gerencianet_I18n::getTextDomain());
-			$this->method_description = __('Com a Gerencianet você pode receber pagamentos via Cartão de Crédito', Gerencianet_I18n::getTextDomain());
+			$this->method_title       = __('Efi - Cartão de Crédito', 'efigerencianet-por-aireset');
+			$this->method_description = __('Venda com cartão de crédito através da Efi.', 'efigerencianet-por-aireset');
 
 			$this->supports = array(
 				'products',
@@ -36,15 +36,15 @@ function init_gerencianet_cartao()
 
 			// Load the settings.
 			$this->init_settings();
-			$this->title                         = __('Cartão de Crédito', Gerencianet_I18n::getTextDomain());
-			$this->description                   = __('Pagando com Cartão de Crédito, seu pagamento será confirmado em até um dia útil.', Gerencianet_I18n::getTextDomain());
-			$this->enabled                       = sanitize_text_field($this->get_option('gn_credit_card'));
-			$this->gn_payee_code                 = sanitize_text_field($this->get_option('gn_payee_code'));
-			$this->gn_client_id_production       = sanitize_text_field($this->get_option('gn_client_id_production'));
-			$this->gn_client_secret_production   = sanitize_text_field($this->get_option('gn_client_secret_production'));
-			$this->gn_client_id_homologation     = sanitize_text_field($this->get_option('gn_client_id_homologation'));
-			$this->gn_client_secret_homologation = sanitize_text_field($this->get_option('gn_client_secret_homologation'));
-			$this->gn_sandbox                    = sanitize_text_field($this->get_option('gn_sandbox'));
+			$this->title                         = __('Efi - Cartão de Crédito', 'efigerencianet-por-aireset');
+			$this->description                   = __('Aceite cartão de crédito através da Efi.', 'efigerencianet-por-aireset');
+			$this->enabled                       = sanitize_text_field($this->get_option('credit_card'));
+			$this->payee_code                 = sanitize_text_field($this->get_option('payee_code'));
+			$this->client_id_production       = sanitize_text_field($this->get_option('client_id_production'));
+			$this->client_secret_production   = sanitize_text_field($this->get_option('client_secret_production'));
+			$this->client_id_homologation     = sanitize_text_field($this->get_option('client_id_homologation'));
+			$this->client_secret_homologation = sanitize_text_field($this->get_option('client_secret_homologation'));
+			$this->sandbox                    = sanitize_text_field($this->get_option('sandbox'));
 
 			// // This action hook saves the settings
 			add_action('woocommerce_update_options_payment_gateways_' . GERENCIANET_CARTAO_ID, array($this, 'process_admin_options'));
@@ -58,64 +58,103 @@ function init_gerencianet_cartao()
 		{
 
 			$this->form_fields = array(
-				'gn_api_section'                => array(
-					'title'       => __('Credenciais Gerencianet', Gerencianet_I18n::getTextDomain()),
+                'title' => [
+                    'title' => __('Title', 'efigerencianet-por-aireset'),
+                    'type' => 'text',
+                    'description' => __(
+                        'This controls the title which the user sees during checkout.',
+                        'efigerencianet-por-aireset'
+                    ),
+                    'default' => $this->method_title,
+                    'desc_tip' => true,
+                ],
+				'status_section' => array(
+					'title'       => __( 'Status Gerencianet', 'efigerencianet-por-aireset' ),
 					'type'        => 'title',
-					'description' => __("<a href='https://gerencianet.com.br/artigo/como-obter-chaves-client-id-e-client-secret-na-api/#versao-7' target='_blank'>Clique aqui para obter seu Client_id e Client_secret! </a>", Gerencianet_I18n::getTextDomain()),
+					'description' => __( "Selecione o status que deseja", 'efigerencianet-por-aireset' ),
 				),
-				'gn_client_id_production'       => array(
-					'title'       => __('Client_id Produção', Gerencianet_I18n::getTextDomain()),
+                'order_status' => [
+                    'title' => __('Status Inicial do Pedido', 'efigerencianet-por-aireset'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select',
+                    'description' => __(
+                        'Choose whether status you wish after checkout.',
+                        'efigerencianet-por-aireset'
+                    ),
+                    'default' => 'wc-on-hold',
+                    'desc_tip' => true,
+                    'options' => wc_get_order_statuses(),
+                ],
+                'order_status_payed' => [
+                    'title' => __('Status do Pedido Pago', 'efigerencianet-por-aireset'),
+                    'type' => 'select',
+                    'class' => 'wc-enhanced-select',
+                    'description' => __(
+                        'Choose whether status you wish after checkout.',
+                        'efigerencianet-por-aireset'
+                    ),
+                    'default' => 'wc-processing',
+                    'desc_tip' => true,
+                    'options' => wc_get_order_statuses(),
+                ],
+				'api_section'                => array(
+					'title'       => __('Credenciais Gerencianet', 'efigerencianet-por-aireset'),
+					'type'        => 'title',
+					'description' => __("<a href='https://gerencianet.com.br/artigo/como-obter-chaves-client-id-e-client-secret-na-api/#versao-7' target='_blank'>Clique aqui para obter seu Client_id e Client_secret! </a>", 'efigerencianet-por-aireset'),
+				),
+				'client_id_production'       => array(
+					'title'       => __('Client_id Produção', 'efigerencianet-por-aireset'),
 					'type'        => 'text',
-					'description' => __('Por favor, insira seu Client_id. Isso é necessário para receber o pagamento.', Gerencianet_I18n::getTextDomain()),
+					'description' => __('Por favor, insira seu Client_id. Isso é necessário para receber o pagamento.', 'efigerencianet-por-aireset'),
 					'desc_tip'    => false,
 					'default'     => '',
 				),
-				'gn_client_secret_production'   => array(
-					'title'       => __('Client_secret Produção', Gerencianet_I18n::getTextDomain()),
+				'client_secret_production'   => array(
+					'title'       => __('Client_secret Produção', 'efigerencianet-por-aireset'),
 					'type'        => 'text',
-					'description' => __('Por favor, insira seu Client_secret. Isso é necessário para receber o pagamento.', Gerencianet_I18n::getTextDomain()),
+					'description' => __('Por favor, insira seu Client_secret. Isso é necessário para receber o pagamento.', 'efigerencianet-por-aireset'),
 					'desc_tip'    => false,
 					'default'     => '',
 				),
-				'gn_client_id_homologation'     => array(
-					'title'       => __('Client_id Homologação', Gerencianet_I18n::getTextDomain()),
+				'client_id_homologation'     => array(
+					'title'       => __('Client_id Homologação', 'efigerencianet-por-aireset'),
 					'type'        => 'text',
-					'description' => __('Por favor, insira seu Client_id de Homologação. Isso é necessário para testar os pagamentos.', Gerencianet_I18n::getTextDomain()),
+					'description' => __('Por favor, insira seu Client_id de Homologação. Isso é necessário para testar os pagamentos.', 'efigerencianet-por-aireset'),
 					'desc_tip'    => false,
 					'default'     => '',
 				),
-				'gn_client_secret_homologation' => array(
-					'title'       => __('Client_secret Homologação', Gerencianet_I18n::getTextDomain()),
+				'client_secret_homologation' => array(
+					'title'       => __('Client_secret Homologação', 'efigerencianet-por-aireset'),
 					'type'        => 'text',
-					'description' => __('Por favor, insira seu Client_secret de Homologação. Isso é necessário para testar os pagamentos.', Gerencianet_I18n::getTextDomain()),
+					'description' => __('Por favor, insira seu Client_secret de Homologação. Isso é necessário para testar os pagamentos.', 'efigerencianet-por-aireset'),
 					'desc_tip'    => false,
 					'default'     => '',
 				),
-				'gn_sandbox_section'            => array(
-					'title'       => __('Ambiente Sandbox', Gerencianet_I18n::getTextDomain()),
+				'sandbox_section'            => array(
+					'title'       => __('Ambiente Sandbox', 'efigerencianet-por-aireset'),
 					'type'        => 'title',
 					'description' => 'Habilite para usar o ambiente de testes da Gerencianet. Nenhuma cobrança emitida nesse modo poderá ser paga.',
 				),
-				'gn_sandbox'                    => array(
-					'title'   => __('Sandbox', Gerencianet_I18n::getTextDomain()),
+				'sandbox'                    => array(
+					'title'   => __('Sandbox', 'efigerencianet-por-aireset'),
 					'type'    => 'checkbox',
-					'label'   => __('Habilitar o ambiente sandbox', Gerencianet_I18n::getTextDomain()),
+					'label'   => __('Habilitar o ambiente sandbox', 'efigerencianet-por-aireset'),
 					'default' => 'no',
 				),
-				'gn_one_payment_section'        => array(
-					'title' => __('Configurações de recebimento', Gerencianet_I18n::getTextDomain()),
+				'one_payment_section'        => array(
+					'title' => __('Configurações de recebimento', 'efigerencianet-por-aireset'),
 					'type'  => 'title',
 				),
-				'gn_credit_card'                => array(
-					'title'   => __('Cartão de Crédito', Gerencianet_I18n::getTextDomain()),
+				'credit_card'                => array(
+					'title'   => __('Cartão de Crédito', 'efigerencianet-por-aireset'),
 					'type'    => 'checkbox',
-					'label'   => __('Habilitar Cartão de Crédito', Gerencianet_I18n::getTextDomain()),
+					'label'   => __('Habilitar Cartão de Crédito', 'efigerencianet-por-aireset'),
 					'default' => 'no',
 				),
-				'gn_payee_code'                 => array(
-					'title'       => __('Identificador de Conta', Gerencianet_I18n::getTextDomain()),
+				'payee_code'                 => array(
+					'title'       => __('Identificador de Conta', 'efigerencianet-por-aireset'),
 					'type'        => 'text',
-					'description' => __('Por favor, insira seu identificador de conta. Isso é necessário para receber os pagamentos.', Gerencianet_I18n::getTextDomain()),
+					'description' => __('Por favor, insira seu identificador de conta. Isso é necessário para receber os pagamentos.', 'efigerencianet-por-aireset'),
 					'desc_tip'    => false,
 					'default'     => '',
 				),
@@ -128,10 +167,10 @@ function init_gerencianet_cartao()
 				echo wpautop(wp_kses_post($this->description));
 			}
 
-			$is_sandbox = $this->get_option('gn_sandbox') == 'yes' ? true : false;
+			$is_sandbox = $this->get_option('sandbox') == 'yes' ? true : false;
 			if ($is_sandbox) {
 				$sandboxWarn = '<div class="warning-payment" id="wc-gerencianet-messages-sandbox">
-                                    <div class="woocommerce-error">' . __('O modo Sandbox está ativo. As cobranças emitidas não serão válidas.', Gerencianet_I18n::getTextDomain()) . '</div>
+                                    <div class="woocommerce-error">' . __('O modo Sandbox está ativo. As cobranças emitidas não serão válidas.', 'efigerencianet-por-aireset') . '</div>
                                 </div>';
 				echo wpautop(wp_kses_post($sandboxWarn));
 			}
@@ -144,22 +183,22 @@ function init_gerencianet_cartao()
 							<input id="gn_cartao_cpf_cnpj" name="gn_cartao_cpf_cnpj" type="text" placeholder="___.___.___-__" autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 						</div>
 						<div class="form-row form-row-last" id="gn_field_birth">
-							<label><?php echo __('Data de Nasc.', Gerencianet_I18n::getTextDomain()); ?><span class="required">*</span></label>
+							<label><?php echo __('Data de Nasc.', 'efigerencianet-por-aireset'); ?><span class="required">*</span></label>
 							<input id="gn_cartao_birth" name="gn_cartao_birth" placeholder="__/__/____" type="text" autocomplete="off">
 						</div>
 					</div>
-					<div class="form-row form-row-wide"><label><?php echo __('Número do Cartão', Gerencianet_I18n::getTextDomain()); ?><span class="required">*</span></label>
+					<div class="form-row form-row-wide"><label><?php echo __('Número do Cartão', 'efigerencianet-por-aireset'); ?><span class="required">*</span></label>
 						<input id="gn_cartao_number" name="gn_cartao_number" type="text" autocomplete="off" style="width: 100%;">
 					</div>
 					<div class="form-row form-row-first"><label>CVV<span class="required">*</span></label>
 						<input id="gn_cartao_cvv" name="gn_cartao_cvv" type="text" autocomplete="off">
 					</div>
-					<div class="form-row form-row-last"><label><?php echo __('Expiração', Gerencianet_I18n::getTextDomain()); ?><span class="required">*</span></label>
+					<div class="form-row form-row-last"><label><?php echo __('Expiração', 'efigerencianet-por-aireset'); ?><span class="required">*</span></label>
 						<input id="gn_cartao_expiration" placeholder="__/____" name="gn_cartao_expiration" type="text" autocomplete="off">
 					</div>
 					<div class="clear"></div>
-					<div class="form-row form-row-wide"><label><?php echo __('Parcelas', Gerencianet_I18n::getTextDomain()); ?><span class="required">*</span></label>
-						<input id="gn_cartao_no_installments" name="gn_cartao_no_installments" type="text" value="<?php echo __('Por favor, insira o número do seu cartão', Gerencianet_I18n::getTextDomain()); ?>" style="text-align: center; width: 100%;" disabled>
+					<div class="form-row form-row-wide"><label><?php echo __('Parcelas', 'efigerencianet-por-aireset'); ?><span class="required">*</span></label>
+						<input id="gn_cartao_no_installments" name="gn_cartao_no_installments" type="text" value="<?php echo __('Por favor, insira o número do seu cartão', 'efigerencianet-por-aireset'); ?>" style="text-align: center; width: 100%;" disabled>
 						<select id="gn_cartao_installments" name="gn_cartao_installments" style="display:none;width: 100%;border-color: #dcd7ca;"></select>
 					</div>
 					<input id="gn_payment_token" name="gn_payment_token" type="hidden">
@@ -180,18 +219,18 @@ function init_gerencianet_cartao()
 				return;
 			}
 
-			if ($this->get_option('gn_sandbox') == 'yes') {
+			if ($this->get_option('sandbox') == 'yes') {
 				echo ('
 					<script type="text/javascript">
-						GNTYPE = "gn_sandbox";
-						GNPAYEECODE = "' . esc_html($this->get_option('gn_payee_code')) . '";
+						GNTYPE = "sandbox";
+						GNPAYEECODE = "' . esc_html($this->get_option('payee_code')) . '";
 					</script>
 				');
 			} else {
 				echo ('
 					<script type="text/javascript">
 						GNTYPE = "gn_production";
-						GNPAYEECODE = "' . esc_html($this->get_option('gn_payee_code')) . '";
+						GNPAYEECODE = "' . esc_html($this->get_option('payee_code')) . '";
 					</script>
 				');
 			}
@@ -207,7 +246,7 @@ function init_gerencianet_cartao()
 		{
 
 			if (empty(sanitize_text_field($_POST['gn_cartao_cpf_cnpj']))) {
-				wc_add_notice(__('O CPF é obrigatório', Gerencianet_I18n::getTextDomain()), 'error');
+				wc_add_notice(__('O CPF é obrigatório', 'efigerencianet-por-aireset'), 'error');
 				return false;
 			} else {
 				$cpf_cnpj = preg_replace('/[^0-9]/', '', sanitize_text_field($_POST['gn_cartao_cpf_cnpj']));
@@ -244,7 +283,7 @@ function init_gerencianet_cartao()
 				switch ($item->get_type()) {
 					case 'fee':
 						$newFee      = array(
-							'name'   => __('Taxas', Gerencianet_I18n::getTextDomain()),
+							'name'   => __('Taxas', 'efigerencianet-por-aireset'),
 							'amount' => 1,
 							'value'  => $item->get_subtotal() * 100,
 						);
@@ -253,7 +292,7 @@ function init_gerencianet_cartao()
 					case 'shipping':
 						if ($item->get_total() > 0) {
 							$shipping[] = array(
-								'name'  => __('Frete', Gerencianet_I18n::getTextDomain()),
+								'name'  => __('Frete', 'efigerencianet-por-aireset'),
 								'value' => $item->get_total() * 100,
 							);
 						}
@@ -277,7 +316,7 @@ function init_gerencianet_cartao()
 							$newItem     = array(
 								'name'   => $product->get_name(),
 								'amount' => $item->get_quantity(),
-								'value'  => $item->get_total() * 100,
+								'value'  => $item->get_subtotal() * 100,
 							);
 						}
 						$items[]     = $newItem;
@@ -405,7 +444,7 @@ function init_gerencianet_cartao()
 
 				exit();
 			} else {
-				wp_die(__('Request Failure', Gerencianet_I18n::getTextDomain()));
+				wp_die(__('Request Failure', 'efigerencianet-por-aireset'));
 			}
 		}
 

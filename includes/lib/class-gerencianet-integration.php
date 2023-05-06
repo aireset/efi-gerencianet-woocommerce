@@ -24,28 +24,28 @@ class Gerencianet_Integration {
 	public function get_credentials( $paymentMethod ) {
 		$wcSettings = maybe_unserialize( get_option( 'woocommerce_' . $paymentMethod . '_settings' ) );
 
-		$isSandbox      = $wcSettings['gn_sandbox'] == 'yes' ? true : false;
+		$isSandbox      = $wcSettings['sandbox'] == 'yes' ? true : false;
 		$gn_credentials = array(
-			'client_id'     => $isSandbox ? $wcSettings['gn_client_id_homologation'] : $wcSettings['gn_client_id_production'],
-			'client_secret' => $isSandbox ? $wcSettings['gn_client_secret_homologation'] : $wcSettings['gn_client_secret_production'],
+			'client_id'     => $isSandbox ? $wcSettings['client_id_homologation'] : $wcSettings['client_id_production'],
+			'client_secret' => $isSandbox ? $wcSettings['client_secret_homologation'] : $wcSettings['client_secret_production'],
 			'sandbox'       => $isSandbox,
 		);
 
 		if ( $paymentMethod == GERENCIANET_PIX_ID ) {
 
-			$gn_credentials['headers']  = array( 'x-skip-mtls-checking' => $wcSettings['gn_pix_mtls'] == 'yes' ? 'false' : 'true' );
+			$gn_credentials['headers']  = array( 'x-skip-mtls-checking' => $wcSettings['pix_mtls'] == 'yes' ? 'false' : 'true' );
 				
-				$certificatePath = get_temp_dir(). $wcSettings['gn_pix_file_name'];
+				$certificatePath = get_temp_dir(). $wcSettings['pix_file_name'];
 
 				if(!file_exists($certificatePath)){
 					try {
 						$file = fopen( $certificatePath, 'w+' );
 						if ( $file ) {
-							$a = fwrite( $file, $wcSettings['gn_pix_file'] );
+							$a = fwrite( $file, $wcSettings['pix_file'] );
 							$b = fclose( $file );
 						}
 						
-						$wcSettings['gn_pix_file_path'] = $certificatePath;
+						$wcSettings['pix_file_path'] = $certificatePath;
 						update_option('woocommerce_' . GERENCIANET_PIX_ID . '_settings', $pixSettings);
 
 					} catch (Error $e) {
@@ -316,8 +316,8 @@ class Gerencianet_Integration {
 			return self::result_api( "Pedido #{$order_id} não encontrado", false );
 		}
 
-			$e2eid = get_post_meta( $order_id, '_gn_pix_E2EID', true );
-			$txid  = get_post_meta( $order_id, '_gn_pix_txid', true );
+			$e2eid = get_post_meta( $order_id, '_pix_E2EID', true );
+			$txid  = get_post_meta( $order_id, '_pix_txid', true );
 
 		if ( isset( $e2eid ) && $e2eid != '' ) {
 
@@ -402,7 +402,7 @@ class Gerencianet_Integration {
 			$message['code']    = $messages[ $messageIndex ]['code'];
 		} catch ( \Throwable $th ) {
 			gn_log( $th );
-			$message['message'] = __( 'Ocorreu um erro ao tentar realizar a sua requisição. Entre em contato com o proprietário da loja.', Gerencianet_I18n::getTextDomain() );
+			$message['message'] = __( 'Ocorreu um erro ao tentar realizar a sua requisição. Entre em contato com o proprietário da loja.', 'efigerencianet-por-aireset' );
 			$message['code']    = 0;
 		}
 		return $message;

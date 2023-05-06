@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name:       Efí/Gerencianet por Aireset
  * Plugin URI:        https://wordpress.org/plugins/efigerencianet-por-aireset/
@@ -17,6 +16,7 @@
  * Este é um plugin como fork do original, com alterações e ajustes que são usados principalmente nos nossos clientes. 
  * Se você procura algo para conectar com sua conta da Efí/Gerencianet pode usar este ou o original. 
  */
+
 
 namespace Gerencianet_Oficial;
 

@@ -91,10 +91,9 @@ class Gerencianet_Oficial
 	 */
 	private function set_locale()
 	{
+		// $plugin_i18n = new Gerencianet_I18n();
 
-		$plugin_i18n = new Gerencianet_I18n();
-
-		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
+		// $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 	}
 
 	/**
@@ -146,7 +145,7 @@ class Gerencianet_Oficial
 		wp_enqueue_script('gn-checkout', GERENCIANET_OFICIAL_PLUGIN_URL . 'assets/js/gn-checkout.js', [ 'jquery', 'gn-vmask', 'gn-sweetalert-js' ], GERENCIANET_OFICIAL_VERSION, true);
 
 		$wcSettings = maybe_unserialize(get_option('woocommerce_WC_Gerencianet_Cartao_settings'));
-		if ($wcSettings['gn_credit_card'] == 'yes') {
+		if ($wcSettings['credit_card'] == 'yes') {
 			wp_register_script('gn-fields', GERENCIANET_OFICIAL_PLUGIN_URL . 'assets/js/gn-checkout-fields.js', [ 'jquery', 'gn-vmask', 'gn-sweetalert-js', 'gn-checkout' ], GERENCIANET_OFICIAL_VERSION, true);
 			wp_enqueue_script('gn-checkout-fields', GERENCIANET_OFICIAL_PLUGIN_URL . 'assets/js/gn-checkout-fields.js', [ 'jquery', 'gn-vmask', 'gn-sweetalert-js', 'gn-checkout' ], GERENCIANET_OFICIAL_VERSION, true);
 		}
@@ -219,8 +218,8 @@ class Gerencianet_Oficial
 		$boletoSettings = maybe_unserialize(get_option('woocommerce_' . GERENCIANET_BOLETO_ID . '_settings'));
 		$cardSettings   = maybe_unserialize(get_option('woocommerce_' . GERENCIANET_CARTAO_ID . '_settings'));
 
-		$boletoEnabled = $boletoSettings['gn_billet_banking'];
-		$cardEnabled   = $cardSettings['gn_credit_card'];
+		$boletoEnabled = $boletoSettings['billet_banking'];
+		$cardEnabled   = $cardSettings['credit_card'];
 
 		$current_shipping_method = WC()->session->get('chosen_shipping_methods');
 		$shippingCost            = 0;
