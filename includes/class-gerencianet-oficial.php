@@ -196,8 +196,14 @@ class Gerencianet_Oficial {
 		$boletoSettings = maybe_unserialize( get_option( 'woocommerce_' . GERENCIANET_BOLETO_ID . '_settings' ) );
 		$cardSettings = maybe_unserialize( get_option( 'woocommerce_' . GERENCIANET_CARTAO_ID . '_settings' ) );
 
-		$boletoEnabled = $boletoSettings['billet_banking'];
-		$cardEnabled = $cardSettings['credit_card'];
+		if(isset($boletoSettings['gn_billet_banking'])) {
+			$boletoEnabled = $boletoSettings['gn_billet_banking'];
+		}
+		
+		if(isset($cardSettings['gn_credit_card'])) {
+			$cardEnabled   = $cardSettings['gn_credit_card'];
+		}
+		
 
 		$current_shipping_method = WC()->session->get( 'chosen_shipping_methods' );
 		$shippingCost = 0;
