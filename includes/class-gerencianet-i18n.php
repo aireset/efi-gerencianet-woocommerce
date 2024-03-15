@@ -12,12 +12,12 @@ namespace GN_Includes;
  *
  * @package    Gerencianet_Oficial
  * @subpackage Gerencianet_Oficial/includes
- * @author     Consultoria Técnica <consultoria@gerencianet.com.br>
+ * @author     Felipe Almeman - Aireset <felipe@aireset.com.br>
  */
 class Gerencianet_I18n {
 
 
-	public static $textDomain = 'gerencianet-aireset';
+	public static $textDomain = 'efigerencianet-por-aireset';
 
 	/**
 	 * Load the plugin text domain for translation.
@@ -25,7 +25,7 @@ class Gerencianet_I18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'gerencianet-aireset',
+			'efigerencianet-por-aireset',
 			false,
 			GERENCIANET_OFICIAL_PLUGIN_PATH . 'languages/'
 		);

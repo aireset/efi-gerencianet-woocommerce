@@ -10,7 +10,7 @@
 	 * @package    Gerencianet_Oficial
 	 * @subpackage Gerencianet_Oficial/front-office/partials
 	 */
-	$order          = new WC_Order( $order_id );
+	$order = new WC_Order( $order_id );
 	$payment_method = $order->get_payment_method();
 
 	switch ( $payment_method ) {
@@ -18,13 +18,13 @@
 			// echo "<p>".__("CPF is required!", Gerencianet_I18n::getTextDomain())."</p>";
 			break;
 		case GERENCIANET_BOLETO_ID:
-			echo '<iframe  src=' . esc_url( get_post_meta( $order_id, '_gn_link_responsive', true ) ) . " width='900' height='1500'></iframe>";
+			echo '<iframe  src=' . esc_url( get_post_meta( $order_id, '_gn_link_responsive', true ) ) . " width='900' height='400'></iframe>";
 			break;
 		case GERENCIANET_PIX_ID:
-			$pixCopy = get_post_meta( $order_id, '_pix_copy', true );
+			$pixCopy = get_post_meta( $order_id, '_gn_pix_copy', true );
 			echo "<h2>Escaneie o QrCode abaixo para pagar</h2>
 					<div style='float:left'>
-						<img src='" . esc_html(get_post_meta( $order_id, '_pix_qrcode', true )) . "' />
+						<img src='" . esc_html( get_post_meta( $order_id, '_gn_pix_qrcode', true ) ) . "' />
 					</div>
 					<div style='padding: 10px;'>
 						<p style='font-weight: bold;'>Ou copie o Pix Copia e Cola clicando no botão abaixo!</p>
@@ -38,30 +38,30 @@
 	}
 
 ?>
+
 <style>
-	.gnbtn{
-		background: #EB6608; 
-		color:#ffff;
-		border:none;
-		font-size: 1rem; 
+	.gnbtn {
+		background: #EB6608;
+		color: #ffff;
+		border: none;
+		font-size: 1rem;
 		padding: 5px 7px 5px 7px;
 		border-radius: 5px;
 	}
 
-	.gnbtn:hover{
+	.gnbtn:hover {
 		background: #d35700;
 		color: #ffff;
 	}
+
 </style>
 
 <script>
 	function gncopy() {
 		document.getElementById('gnbtncopy').innerHTML = 'Copiado!';
 		navigator.clipboard.writeText('<?php echo esc_html( $pixCopy ); ?>');
-		setTimeout(()=> {
+		setTimeout(() => {
 			document.getElementById('gnbtncopy').innerHTML = 'Copiar Pix Copia e Cola';
-			},1000)
+		}, 1000)
 	}
 </script>
-
-

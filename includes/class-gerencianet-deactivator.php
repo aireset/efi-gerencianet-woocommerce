@@ -9,7 +9,7 @@ namespace GN_Includes;
  *
  * @package    Gerencianet_Oficial
  * @subpackage Gerencianet_Oficial/includes
- * @author     Consultoria Técnica <consultoria@gerencianet.com.br>
+ * @author     Felipe Almeman - Aireset <felipe@aireset.com.br>
  */
 class Gerencianet_Deactivator {
 

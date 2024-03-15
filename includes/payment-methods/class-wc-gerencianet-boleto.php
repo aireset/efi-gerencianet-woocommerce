@@ -20,8 +20,8 @@ function init_gerencianet_boleto() {
 
 			$this->id                 = GERENCIANET_BOLETO_ID; // payment gateway plugin ID
 			$this->has_fields         = true; // custom form
-			$this->method_title       = __( 'Efi - Boleto Bancário', 'efigerencianet-por-aireset' );
-			$this->method_description = __( 'Venda com boleto bancário através da Efi.', 'efigerencianet-por-aireset' );
+			$this->method_title       = __( 'Efí - Boletos', Gerencianet_I18n::getTextDomain() );
+			$this->method_description = __( 'Com a Efí você pode receber pagamentos via Boleto', Gerencianet_I18n::getTextDomain() );
 
 			$this->supports = array(
 				'products',
@@ -33,169 +33,131 @@ function init_gerencianet_boleto() {
 
 			$discountText = '';
 
-			if ( $this->get_option( 'billet_discount' ) != '' && $this->get_option( 'billet_discount' ) != '0' && $this->get_option( 'billet_discount' ) != null && intval($this->get_option( 'billet_discount' )) > 0) {
-				$discountText = ' - ' . esc_html( $this->get_option( 'billet_discount' ) ) . __('% de Desconto', 'efigerencianet-por-aireset' );
+			if ( $this->get_option( 'gn_billet_discount' ) != '' && $this->get_option( 'gn_billet_discount' ) != '0' && $this->get_option( 'gn_billet_discount' ) != null && intval($this->get_option( 'gn_billet_discount' )) > 0) {
+				$discountText = ' - ' . esc_html( $this->get_option( 'gn_billet_discount' ) ) . '% de Desconto';
 			}
 
 			// Load the settings.
 			$this->init_settings();
-			$this->enabled                       = sanitize_text_field( $this->get_option( 'billet_banking' ) );
-			$this->billet_unpaid                 = sanitize_text_field( $this->get_option( 'billet_unpaid' ) );
-			$this->billet_discount            = sanitize_text_field( $this->get_option( 'billet_discount' ) );
-			$this->billet_discount_shipping   = sanitize_text_field( $this->get_option( 'billet_discount_shipping' ) );
-			$this->billet_number_days         = sanitize_text_field( $this->get_option( 'billet_number_days' ) );
-			$this->client_id_production       = sanitize_text_field( $this->get_option( 'client_id_production' ) );
-			$this->client_secret_production   = sanitize_text_field( $this->get_option( 'client_secret_production' ) );
-			$this->client_id_homologation     = sanitize_text_field( $this->get_option( 'client_id_homologation' ) );
-			$this->client_secret_homologation = sanitize_text_field( $this->get_option( 'client_secret_homologation' ) );
-			$this->sandbox                    = sanitize_text_field( $this->get_option( 'sandbox' ) );
-
-			
-			$this->title                         = __( 'Efi - Boleto Bancário', 'efigerencianet-por-aireset' ) . $discountText;
-			$this->description                   = sprintf( __( 'Realize o pagamento através de boleto pela Efí, será confirmado em até %s úteis.', 'efigerencianet-por-aireset' ), $this->billet_number_days );
+			$this->title                         = __( 'Boleto', Gerencianet_I18n::getTextDomain() ) . $discountText;
+			$this->description                   = __( 'Pagando por Boleto, seu pagamento será confirmado em até dois dias úteis.', Gerencianet_I18n::getTextDomain() );
+			$this->enabled                       = sanitize_text_field( $this->get_option( 'gn_billet_banking' ) );
+			$this->gn_billet_unpaid              = sanitize_text_field( $this->get_option( 'gn_billet_unpaid' ) );
+			$this->gn_billet_discount            = sanitize_text_field( $this->get_option( 'gn_billet_discount' ) );
+			$this->gn_billet_discount_shipping   = sanitize_text_field( $this->get_option( 'gn_billet_discount_shipping' ) );
+			$this->gn_billet_number_days         = sanitize_text_field( $this->get_option( 'gn_billet_number_days' ) );
+			$this->gn_client_id_production       = sanitize_text_field( $this->get_option( 'gn_client_id_production' ) );
+			$this->gn_client_secret_production   = sanitize_text_field( $this->get_option( 'gn_client_secret_production' ) );
+			$this->gn_client_id_homologation     = sanitize_text_field( $this->get_option( 'gn_client_id_homologation' ) );
+			$this->gn_client_secret_homologation = sanitize_text_field( $this->get_option( 'gn_client_secret_homologation' ) );
+			$this->gn_sandbox                    = sanitize_text_field( $this->get_option( 'gn_sandbox' ) );
 
 			// // This action hook saves the settings
 			add_action( 'woocommerce_update_options_payment_gateways_' . GERENCIANET_BOLETO_ID, array( $this, 'process_admin_options' ) );
 
 			// This hook add the "view payment Methods" button
 			add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this, 'add_view_payment_methods' ) );
-			
-			// wp_enqueue_script( 'gn-sweetalert-js', GERENCIANET_OFICIAL_PLUGIN_URL . 'assets/js/sweetalert.js', ['jquery' ], GERENCIANET_OFICIAL_VERSION, true );
-
+			wp_enqueue_script( 'gn_sweetalert', GERENCIANET_OFICIAL_PLUGIN_URL . 'assets/js/sweetalert.js', array( 'jquery' ), GERENCIANET_OFICIAL_VERSION, false );
 			add_action( 'woocommerce_api_' . strtolower( GERENCIANET_BOLETO_ID ), array( $this, 'webhook' ) );
 		}
 
 		public function init_form_fields() {
 
 			$this->form_fields = array(
-                'title' => [
-                    'title' => __('Title', 'efigerencianet-por-aireset'),
-                    'type' => 'text',
-                    'description' => __(
-                        'This controls the title which the user sees during checkout.',
-                        'efigerencianet-por-aireset'
-                    ),
-                    'default' => $this->method_title,
-                    'desc_tip' => true,
-                ],
-				'status_section' => array(
-					'title'       => __( 'Status Gerencianet', 'efigerencianet-por-aireset' ),
+				'gn_api_section'                => array(
+					'title'       => __( 'Credenciais Efí', Gerencianet_I18n::getTextDomain() ),
 					'type'        => 'title',
-					'description' => __( "Selecione o status que deseja", 'efigerencianet-por-aireset' ),
+					'description' => __( "<a href='https://gerencianet.com.br/artigo/como-obter-chaves-client-id-e-client-secret-na-api/#versao-7' target='_blank'>Clique aqui para obter seu Client_id e Client_secret! </a>", Gerencianet_I18n::getTextDomain() ),
 				),
-                'order_status' => [
-                    'title' => __('Status Inicial do Pedido', 'efigerencianet-por-aireset'),
-                    'type' => 'select',
-                    'class' => 'wc-enhanced-select',
-                    'description' => __(
-                        'Choose whether status you wish after checkout.',
-                        'efigerencianet-por-aireset'
-                    ),
-                    'default' => 'wc-on-hold',
-                    'desc_tip' => true,
-                    'options' => wc_get_order_statuses(),
-                ],
-                'order_status_payed' => [
-                    'title' => __('Status do Pedido Pago', 'efigerencianet-por-aireset'),
-                    'type' => 'select',
-                    'class' => 'wc-enhanced-select',
-                    'description' => __(
-                        'Choose whether status you wish after checkout.',
-                        'efigerencianet-por-aireset'
-                    ),
-                    'default' => 'wc-processing',
-                    'desc_tip' => true,
-                    'options' => wc_get_order_statuses(),
-                ],
-				'api_section'                => array(
-					'title'       => __( 'Credenciais Gerencianet', 'efigerencianet-por-aireset' ),
+				'gn_client_id_production'       => array(
+					'title'       => __( 'Client_id Produção', Gerencianet_I18n::getTextDomain() ),
+					'type'        => 'text',
+					'description' => __( 'Por favor, insira seu Client_id. Isso é necessário para receber o pagamento.', Gerencianet_I18n::getTextDomain() ),
+					'desc_tip'    => false,
+					'default'     => '',
+				),
+				'gn_client_secret_production'   => array(
+					'title'       => __( 'Client_secret Produção', Gerencianet_I18n::getTextDomain() ),
+					'type'        => 'text',
+					'description' => __( 'Por favor, insira seu Client_secret. Isso é necessário para receber o pagamento.', Gerencianet_I18n::getTextDomain() ),
+					'desc_tip'    => false,
+					'default'     => '',
+				),
+				'gn_client_id_homologation'     => array(
+					'title'       => __( 'Client_id Homologação', Gerencianet_I18n::getTextDomain() ),
+					'type'        => 'text',
+					'description' => __( 'Por favor, insira seu Client_id de Homologação. Isso é necessário para testar os pagamentos.', Gerencianet_I18n::getTextDomain() ),
+					'desc_tip'    => false,
+					'default'     => '',
+				),
+				'gn_client_secret_homologation' => array(
+					'title'       => __( 'Client_secret Homologação', Gerencianet_I18n::getTextDomain() ),
+					'type'        => 'text',
+					'description' => __( 'Por favor, insira seu Client_secret de Homologação. Isso é necessário para testar os pagamentos.', Gerencianet_I18n::getTextDomain() ),
+					'desc_tip'    => false,
+					'default'     => '',
+				),
+				'gn_sandbox_section'            => array(
+					'title'       => __( 'Ambiente Sandbox', Gerencianet_I18n::getTextDomain() ),
 					'type'        => 'title',
-					'description' => __( "<a href='https://gerencianet.com.br/artigo/como-obter-chaves-client-id-e-client-secret-na-api/#versao-7' target='_blank'>Clique aqui para obter seu Client_id e Client_secret! </a>", 'efigerencianet-por-aireset' ),
+					'description' => 'Habilite para usar o ambiente de testes da Efí. Nenhuma cobrança emitida nesse modo poderá ser paga.',
 				),
-				'client_id_production'       => array(
-					'title'       => __( 'Client_id Produção', 'efigerencianet-por-aireset' ),
-					'type'        => 'text',
-					'description' => __( 'Por favor, insira seu Client_id. Isso é necessário para receber o pagamento.', 'efigerencianet-por-aireset' ),
-					'desc_tip'    => false,
-					'default'     => '',
-				),
-				'client_secret_production'   => array(
-					'title'       => __( 'Client_secret Produção', 'efigerencianet-por-aireset' ),
-					'type'        => 'text',
-					'description' => __( 'Por favor, insira seu Client_secret. Isso é necessário para receber o pagamento.', 'efigerencianet-por-aireset' ),
-					'desc_tip'    => false,
-					'default'     => '',
-				),
-				'client_id_homologation'     => array(
-					'title'       => __( 'Client_id Homologação', 'efigerencianet-por-aireset' ),
-					'type'        => 'text',
-					'description' => __( 'Por favor, insira seu Client_id de Homologação. Isso é necessário para testar os pagamentos.', 'efigerencianet-por-aireset' ),
-					'desc_tip'    => false,
-					'default'     => '',
-				),
-				'client_secret_homologation' => array(
-					'title'       => __( 'Client_secret Homologação', 'efigerencianet-por-aireset' ),
-					'type'        => 'text',
-					'description' => __( 'Por favor, insira seu Client_secret de Homologação. Isso é necessário para testar os pagamentos.', 'efigerencianet-por-aireset' ),
-					'desc_tip'    => false,
-					'default'     => '',
-				),
-				'sandbox_section'            => array(
-					'title'       => __( 'Ambiente Sandbox', 'efigerencianet-por-aireset' ),
-					'type'        => 'title',
-					'description' => 'Habilite para usar o ambiente de testes da Gerencianet. Nenhuma cobrança emitida nesse modo poderá ser paga.',
-				),
-				'sandbox'                    => array(
-					'title'   => __( 'Sandbox', 'efigerencianet-por-aireset' ),
+				'gn_sandbox'                    => array(
+					'title'   => __( 'Sandbox', Gerencianet_I18n::getTextDomain() ),
 					'type'    => 'checkbox',
-					'label'   => __( 'Habilitar o ambiente sandbox', 'efigerencianet-por-aireset' ),
+					'label'   => __( 'Habilitar o ambiente sandbox', Gerencianet_I18n::getTextDomain() ),
 					'default' => 'no',
 				),
-				'billet_section'             => array(
-					'title' => __( 'Configurações de recebimento', 'efigerencianet-por-aireset' ),
+				'gn_billet_section'             => array(
+					'title' => __( 'Configurações de recebimento', Gerencianet_I18n::getTextDomain() ),
 					'type'  => 'title',
 				),
-				'billet_banking'             => array(
-					'title'   => __( 'Boleto', 'efigerencianet-por-aireset' ),
+				'gn_billet_banking'             => array(
+					'title'   => __( 'Boleto', Gerencianet_I18n::getTextDomain() ),
 					'type'    => 'checkbox',
-					'label'   => __( 'Habilitar Boleto', 'efigerencianet-por-aireset' ),
+					'label'   => __( 'Habilitar Boleto', Gerencianet_I18n::getTextDomain() ),
 					'default' => 'no',
 				),
-				'billet_unpaid'              => array(
-					'title'       => __( 'Cancelar Boletos inadimplentes?', 'efigerencianet-por-aireset' ),
+				'gn_billet_unpaid'              => array(
+					'title'       => __( 'Cancelar Boletos inadimplentes?', Gerencianet_I18n::getTextDomain() ),
 					'type'        => 'checkbox',
-					'label'       => __( 'Habilitar o cancelamento de Boletos não pagos', 'efigerencianet-por-aireset' ),
-					'description' => __( 'Quando ativado, cancela todos os Boletos que não foram pagos. Evitando que o cliente pague o Boleto após o vencimento.', 'efigerencianet-por-aireset' ),
+					'label'       => __( 'Habilitar o cancelamento de Boletos não pagos', Gerencianet_I18n::getTextDomain() ),
+					'description' => __( 'Quando ativado, cancela todos os Boletos que não foram pagos. Evitando que o cliente pague o Boleto após o vencimento.', Gerencianet_I18n::getTextDomain() ),
 					'default'     => 'no',
 				),
-				'billet_discount'            => array(
-					'title'       => __( 'Desconto no Boleto', 'efigerencianet-por-aireset' ),
+				'gn_billet_discount'            => array(
+					'title'       => __( 'Desconto no Boleto', Gerencianet_I18n::getTextDomain() ),
 					'type'        => 'number',
-					'description' => __( 'Porcentagem de desconto para pagamento com Boleto. (Opcional)', 'efigerencianet-por-aireset' ),
+					'description' => __( 'Porcentagem de desconto para pagamento com Boleto. (Opcional)', Gerencianet_I18n::getTextDomain() ),
 					'desc_tip'    => false,
 					'placeholder' => '10',
 					'default'     => '0',
 				),
-				'billet_discount_shipping'   => array(
-					'title'       => __( 'Aplicar desconto do Boleto', 'efigerencianet-por-aireset' ),
+				'gn_billet_discount_shipping'   => array(
+					'title'       => __( 'Aplicar desconto do Boleto', Gerencianet_I18n::getTextDomain() ),
 					'type'        => 'select',
-					'description' => __( 'Escolha a modalidade de desconto.', 'efigerencianet-por-aireset' ),
+					'description' => __( 'Escolha a modalidade de desconto.', Gerencianet_I18n::getTextDomain() ),
 					'default'     => 'total',
 					'options'     => array(
-						'total'    => __( 'Aplicar desconto no valor total com Frete', 'efigerencianet-por-aireset' ),
-						'products' => __( 'Aplicar desconto apenas no preço dos produtos', 'efigerencianet-por-aireset' ),
+						'total'    => __( 'Aplicar desconto no valor total com Frete', Gerencianet_I18n::getTextDomain() ),
+						'products' => __( 'Aplicar desconto apenas no preço dos produtos', Gerencianet_I18n::getTextDomain() ),
 					),
 				),
-				'billet_number_days'         => array(
-					'title'       => __( 'Vencimento do Boleto', 'efigerencianet-por-aireset' ),
+				'gn_billet_number_days'         => array(
+					'title'       => __( 'Vencimento do Boleto', Gerencianet_I18n::getTextDomain() ),
 					'type'        => 'number',
-					'description' => __( 'Dias para expirar o Boleto depois de emitido.', 'efigerencianet-por-aireset' ),
+					'description' => __( 'Dias para expirar o Boleto depois de emitido.', Gerencianet_I18n::getTextDomain() ),
 					'desc_tip'    => false,
 					'placeholder' => '0',
 					'default'     => '5',
-				),
+				)
 				
 			);
+		}
+
+		public function gn_price_format($value){
+			$value = number_format($value, 2, "", "");
+			return $value;
 		}
 
 		public function payment_fields() {
@@ -203,24 +165,24 @@ function init_gerencianet_boleto() {
 				echo wpautop( wp_kses_post( $this->description ) );
 			}
 
-			if(intval( $this->get_option( 'billet_discount' ) ) > 0){
+			if(intval( $this->get_option( 'gn_billet_discount' ) ) > 0){
 				$discountMessage = '';
-				if ( $this->get_option( 'billet_discount_shipping' ) == 'total' ) {
-					$discountMessage = __(' no valor total da compra (frete incluso)', 'efigerencianet-por-aireset' );
+				if ( $this->get_option( 'gn_billet_discount_shipping' ) == 'total' ) {
+					$discountMessage = ' no valor total da compra (frete incluso)';
 				}else{
-					$discountMessage = __(' no valor total dos produtos (frete não incluso)', 'efigerencianet-por-aireset' );
+					$discountMessage = ' no valor total dos produtos (frete não incluso)';
 				}
 				
 				$discountWarn = '<div class="warning-payment" id="wc-gerencianet-messages-sandbox">
-										<div class="woocommerce-info">' .esc_html( $this->get_option( 'billet_discount' ) ) . '% de Desconto'.$discountMessage. '</div>
+										<div class="woocommerce-info">' .esc_html( $this->get_option( 'gn_billet_discount' ) ) . '% de Desconto'.$discountMessage. '</div>
 									</div>';
 				echo wpautop( wp_kses_post( $discountWarn ) );
 			}
 			
-			$is_sandbox = $this->get_option( 'sandbox' ) == 'yes' ? true : false;
+			$is_sandbox = $this->get_option( 'gn_sandbox' ) == 'yes' ? true : false;
 			if ( $is_sandbox ) {
 				$sandboxWarn = '<div class="warning-payment" id="wc-gerencianet-messages-sandbox">
-                                    <div class="woocommerce-error">' . __( 'O modo Sandbox está ativo. As cobranças emitidas não serão válidas.', 'efigerencianet-por-aireset' ) . '</div>
+                                    <div class="woocommerce-error">' . __( 'O modo Sandbox está ativo. As cobranças emitidas não serão válidas.', Gerencianet_I18n::getTextDomain() ) . '</div>
                                 </div>';
 				echo wpautop( wp_kses_post( $sandboxWarn ) );
 			}
@@ -230,9 +192,11 @@ function init_gerencianet_boleto() {
 			?>
 				<div class="form-row form-row-wide" id="gn_field_boleto">
 					<label>CPF/CNPJ <span class="required">*</span></label>
-					<input id="gn_boleto_cpf_cnpj" name="gn_boleto_cpf_cnpj" type="text" placeholder="___.___.___-__" autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+					<input id="gn_boleto_cpf_cnpj" class="input-text" inputmode="numeric" name="gn_boleto_cpf_cnpj" type="text" placeholder="___.___.___-__" autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 				</div>
 				<div class="clear"></div></fieldset>
+				<script src="<?php echo plugins_url( '../assets/js/vanilla-masker.min.js', plugin_dir_path( __FILE__ ) ); ?>"></script>
+				<script src="<?php echo plugins_url( '../assets/js/scripts-boleto.js', plugin_dir_path( __FILE__ ) ); ?>"></script>
 			<?php
 
 		}
@@ -240,7 +204,7 @@ function init_gerencianet_boleto() {
 		public function validate_fields() {
 
 			if ( empty( sanitize_text_field( $_POST['gn_boleto_cpf_cnpj'] ) ) ) {
-				wc_add_notice( __( 'CPF é obrigatório!', 'efigerencianet-por-aireset' ), 'error' );
+				wc_add_notice( __( 'CPF é obrigatório!', Gerencianet_I18n::getTextDomain() ), 'error' );
 				return false;
 			} else {
 				$cpf_cnpj = preg_replace( '/[^0-9]/', '', sanitize_text_field( $_POST['gn_boleto_cpf_cnpj'] ) );
@@ -266,7 +230,6 @@ function init_gerencianet_boleto() {
 			$shipping       = array();
 			$discount       = false;
 			$orderTotal     = 0;
-			$shippingTotal  = 0;
 			$expirationDate = date( 'Y-m-d' );
 			// get the Items
 			foreach ( $order->get_items( $types ) as $item_id => $item ) {
@@ -274,46 +237,36 @@ function init_gerencianet_boleto() {
 				switch ( $item->get_type() ) {
 					case 'fee':
 						$newFee      = array(
-							'name'   => __( 'Taxas', 'efigerencianet-por-aireset' ),
+							'name'   => __( 'Taxas', Gerencianet_I18n::getTextDomain() ),
 							'amount' => 1,
-							'value'  => $item->get_subtotal() * 100,
+							'value'  => (int)$this->gn_price_format($item->get_subtotal()),
 						);
-						$orderTotal += $item->get_subtotal() * 100;
+						$orderTotal += (int)$this->gn_price_format($item->get_subtotal());
 						$items[]     = $newFee;
 						break;
 					case 'shipping':
 						if ( $item->get_total() > 0 ) {
 							$shipping[] = array(
-								'name'  => __( 'Frete', 'efigerencianet-por-aireset' ),
-								'value' => $item->get_total() * 100,
+								'name'  => __( 'Frete', Gerencianet_I18n::getTextDomain() ),
+								'value' => (int)$this->gn_price_format($item->get_total()),
 							);
-						    $shippingTotal += $item->get_total();
 						}
 						break;
 					case 'coupon':
 						$newDiscount = array(
 							'type'  => 'currency',
-							'value' => $item->get_discount() * 100,
+							'value' => (int)$this->gn_price_format($item->get_discount()),
 						);
 						$discount    = $newDiscount;
 						break;
 					case 'line_item':
 						$product     = $item->get_product();
-						if(!empty($product->get_price())){
-						    $newItem     = array(
-    							'name'   => $product->get_name(),
-    							'amount' => $item->get_quantity(),
-    							'value'  => $product->get_price() * 100,
-    						);
-						    $orderTotal += $product->get_price() * 100 * $item->get_quantity();
-						} else {
-						    $newItem     = array(
-    							'name'   => $product->get_name(),
-    							'amount' => $item->get_quantity(),
-    							'value'  => $item->get_subtotal() * 100,
-    						);
-						    $orderTotal += $item->get_subtotal() * 100;
-						}
+						$newItem     = array(
+							'name'   => $product->get_name(),
+							'amount' => $item->get_quantity(),
+							'value'  => (int)$this->gn_price_format($product->get_price()),
+						);
+						$orderTotal += (int)$this->gn_price_format($product->get_price() * $item->get_quantity());
 						$items[]     = $newItem;
 						break;
 					default:
@@ -321,9 +274,9 @@ function init_gerencianet_boleto() {
 						$newItem     = array(
 							'name'   => $item->get_name(),
 							'amount' => $item->get_quantity(),
-							'value'  => $product->get_price() * 100,
+							'value'  => (int)$this->gn_price_format($product->get_price()),
 						);
-						$orderTotal += $product->get_price() * 100 * $item->get_quantity();
+						$orderTotal += (int)$this->gn_price_format($product->get_price() * $item->get_quantity());
 						$items[]     = $newItem;
 						break;
 				}
@@ -333,7 +286,7 @@ function init_gerencianet_boleto() {
 				$newItem     = array(
 					'name'   => 'Taxas',
 					'amount' => 1,
-					'value'  => $order->get_total_tax() * 100,
+					'value'  => (int)$this->gn_price_format($order->get_total_tax())
 				);
 				array_push($items, $newItem);
 			}
@@ -352,11 +305,11 @@ function init_gerencianet_boleto() {
 					),
 				);
 			} else {
-				wc_add_notice( __( 'Verifique seu CPF/CNPJ e tente emitir novamente!', 'efigerencianet-por-aireset' ), 'error' );
+				wc_add_notice( __( 'Verifique seu CPF/CNPJ e tente emitir novamente!', Gerencianet_I18n::getTextDomain() ), 'error' );
 				return;
 			}
 
-			if ( $this->get_option( 'billet_discount' ) != '' && $this->get_option( 'billet_discount' ) != '0' ) {
+			if ( $this->get_option( 'gn_billet_discount' ) != '' && $this->get_option( 'gn_billet_discount' ) != '0' ) {
 
 				if ( ! isset( $discount['value'] ) ) {
 					$discount = array(
@@ -367,24 +320,22 @@ function init_gerencianet_boleto() {
 				
 				$discount_gn = 0;
 
-				if ( $this->get_option( 'billet_discount_shipping' ) == 'total' ) {
+				if ( $this->get_option( 'gn_billet_discount_shipping' ) == 'total' ) {
 					if ( isset( $shipping[0]['value'] ) ) {
-						$discount = ( ( $orderTotal + $shipping[0]['value'] ) * ( intval( $this->get_option( 'billet_discount' ) ) / 100 ) );
+					    $discount_gn = round(( $orderTotal + $shipping[0]['value'] ) * ( intval( $this->get_option( 'gn_billet_discount' ) ) / 100 ), 0, PHP_ROUND_HALF_UP);
 						$discount['value'] += $discount_gn;
 					} else {
-						$discount = ( ( $orderTotal ) * ( intval( $this->get_option( 'billet_discount' ) ) / 100 ) );
+					    $discount_gn = round( ( $orderTotal ) * ( intval( $this->get_option( 'gn_billet_discount' ) ) / 100 ), 0, PHP_ROUND_HALF_UP );
 						$discount['value'] += $discount_gn;
 					}
-					$discountMessage = ' no valor total da compra';
-				} else {				    
-					$discount_gn = ( ( $orderTotal - $shippingTotal ) * ( intval( $this->get_option( 'billet_discount' ) ) / 100 ) );
+				} else {
+				    $discount_gn = round( $orderTotal * ( intval( $this->get_option( 'gn_billet_discount' ) ) / 100 ), 0, PHP_ROUND_HALF_UP );
 					$discount['value'] += $discount_gn;
-					$discountMessage = ' no valor total dos produtos (frete não incluso)';
 				}
 				$order_item_id = wc_add_order_item(
 					$order_id,
 					array(
-						'order_item_name' => $this->get_option( 'billet_discount' ) . __( '% de desconto no boleto' ).$discountMessage,
+						'order_item_name' => $this->get_option( 'gn_billet_discount' ) . __( '% de desconto no boleto' ).$discountMessage,
 						'order_item_type' => 'fee',
 					)
 				);
@@ -397,9 +348,9 @@ function init_gerencianet_boleto() {
 				}
 			}
 
-			if ( $this->get_option( 'billet_number_days' ) != '' && $this->get_option( 'billet_number_days' ) != '0' ) {
+			if ( $this->get_option( 'gn_billet_number_days' ) != '' && $this->get_option( 'gn_billet_number_days' ) != '0' ) {
 				$today          = date( 'Y-m-d' );
-				$numberDays     = $this->get_option( 'billet_number_days' );
+				$numberDays     = $this->get_option( 'gn_billet_number_days' );
 				$expirationDate = date( 'Y-m-d', strtotime( '+' . $numberDays . ' days', strtotime( $today ) ) );
 			}
 
@@ -411,8 +362,8 @@ function init_gerencianet_boleto() {
 					update_post_meta( $order_id, '_gn_barcode', $charge['data']['barcode'] );
 				}
 				if ( isset( $charge['data']['pix'] ) ) {
-					update_post_meta( $order_id, '_pix_qrcode', $charge['data']['pix']['qrcode_image'] );
-					update_post_meta( $order_id, '_pix_copy', $charge['data']['pix']['qrcode'] );
+					update_post_meta( $order_id, '_gn_pix_qrcode', $charge['data']['pix']['qrcode_image'] );
+					update_post_meta( $order_id, '_gn_pix_copy', $charge['data']['pix']['qrcode'] );
 				}
 				if ( isset( $charge['data']['link'] ) ) {
 					update_post_meta( $order_id, '_gn_link_responsive', $charge['data']['link'] );
@@ -477,13 +428,13 @@ function init_gerencianet_boleto() {
 							break;
 					}
 				} else {
-					error_log( 'gerencianet-aireset', 'GERENCIANET :: notification Request : FAIL ' );
+					error_log( 'gerencianet-oficial', 'GERENCIANET :: notification Request : FAIL ' );
 				}
 
 				exit();
 
 			} else {
-				wp_die( __( 'Request Failure', 'efigerencianet-por-aireset' ) );
+				wp_die( __( 'Request Failure', Gerencianet_I18n::getTextDomain() ) );
 			}
 		}
 
@@ -540,7 +491,7 @@ function init_gerencianet_boleto() {
 						}else{
 							id="gnpix";
 							btnlabel = 'Copiar Pix Copia e Cola'
-							copyText = '<?php echo esc_html(get_post_meta( $order->get_id(), '_pix_copy', true )); ?>'
+							copyText = '<?php echo esc_html(get_post_meta( $order->get_id(), '_gn_pix_copy', true )); ?>'
 						}
 						
 						document.getElementById(id).innerHTML = 'Copiado!';
@@ -554,7 +505,7 @@ function init_gerencianet_boleto() {
 						Swal.fire({
 							title: 'Meios de Pagamento Disponíveis',
 							icon: 'info',
-							html: '<div class="gngrid-container"><?php if ( get_post_meta( $order->get_id(), '_pix_copy', true ) !== NULL ) { ?><div class="gngrid-item"><div class="gn-item-area"><img style="width:150px;"src="<?php echo esc_url(plugins_url( 'woo-gerencianet-official/assets/img/pix-copia.png' ))?>" /><br><a onclick="gncopy(2)" class="button gn-btn" id="gnpix">Copiar Pix Copia e Cola</a></div></div><?php }if ( get_post_meta( $order->get_id(), '_gn_link_responsive', true ) !== NULL ) {	?><div class="gn-item-area"><div class="gngrid-item"><img style="width:150px;" src="<?php echo esc_url(plugins_url('woo-gerencianet-official/assets/img/boleto-online.png' )); ?>" /><br><a href="<?php echo esc_url(get_post_meta( $order->get_id(), '_gn_link_responsive', true )); ?>" target="_blank" class="button gn-btn">Acessar Boleto Online</a></div></div>	<?php }	if ( get_post_meta( $order->get_id(), '_gn_barcode', true ) !== NULL ) {?><div class="gn-item-area"><div class="gngrid-item"><img style="width:150px;" src="<?php echo esc_url(plugins_url('woo-gerencianet-official/assets/img/copy-barcode.png' )); ?>" /><br><a onclick="gncopy(1)" class="button gn-btn" id="gnbarcode">Copiar Código de Barras</a></div></div><?php }if(get_post_meta( $order->get_id(), '_gn_link_pdf', true ) !== NULL) {	?><div class="gn-item-area"><div class="gngrid-item"><img style="width:150px;" src="<?php echo esc_url(plugins_url('woo-gerencianet-official/assets/img/download-boleto.png' )); ?>" /><br><a href="<?php echo esc_url( get_post_meta( $order->get_id(), '_gn_link_pdf', true ) ); ?>" target="_blank" class="button gn-btn">Baixar Boleto</a></div></div><?php } ?></div>',
+							html: '<div class="gngrid-container"><?php if ( get_post_meta( $order->get_id(), '_gn_pix_copy', true ) !== NULL ) { ?><div class="gngrid-item"><div class="gn-item-area"><img style="width:150px;"src="<?php echo esc_url(plugins_url( 'woo-gerencianet-official/assets/img/pix-copia.png' ))?>" /><br><a onclick="gncopy(2)" class="button gn-btn" id="gnpix">Copiar Pix Copia e Cola</a></div></div><?php }if ( get_post_meta( $order->get_id(), '_gn_link_responsive', true ) !== NULL ) {	?><div class="gn-item-area"><div class="gngrid-item"><img style="width:150px;" src="<?php echo esc_url(plugins_url('woo-gerencianet-official/assets/img/boleto-online.png' )); ?>" /><br><a href="<?php echo esc_url(get_post_meta( $order->get_id(), '_gn_link_responsive', true )); ?>" target="_blank" class="button gn-btn">Acessar Boleto Online</a></div></div>	<?php }	if ( get_post_meta( $order->get_id(), '_gn_barcode', true ) !== NULL ) {?><div class="gn-item-area"><div class="gngrid-item"><img style="width:150px;" src="<?php echo esc_url(plugins_url('woo-gerencianet-official/assets/img/copy-barcode.png' )); ?>" /><br><a onclick="gncopy(1)" class="button gn-btn" id="gnbarcode">Copiar Código de Barras</a></div></div><?php }if(get_post_meta( $order->get_id(), '_gn_link_pdf', true ) !== NULL) {	?><div class="gn-item-area"><div class="gngrid-item"><img style="width:150px;" src="<?php echo esc_url(plugins_url('woo-gerencianet-official/assets/img/download-boleto.png' )); ?>" /><br><a href="<?php echo esc_url( get_post_meta( $order->get_id(), '_gn_link_pdf', true ) ); ?>" target="_blank" class="button gn-btn">Baixar Boleto</a></div></div><?php } ?></div>',
 							showCloseButton: true,
 							showCancelButton: false,
 							showConfirmButton: false
@@ -565,7 +516,7 @@ function init_gerencianet_boleto() {
 				<div class="gn_payment_methods">
 					<a onclick="viewGnInfos()" style="background: #EB6608; color:#ffff; border:none;" class="button">
 					<span class="dashicons dashicons-visibility" style="margin-top:4px;"></span>
-					<?php echo __( 'Ver métodos de pagamento', 'efigerencianet-por-aireset' ); ?>
+					<?php echo __( 'Ver métodos de pagamento', Gerencianet_I18n::getTextDomain() ); ?>
 					</a>
 				</div>
 				
