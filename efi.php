@@ -4,7 +4,7 @@
  * Plugin Name:       Efí/Gerencianet por Aireset
  * Plugin URI:        https://wordpress.org/plugins/efigerencianet-por-aireset/
  * Description:       Gateway de pagamento Efi/Gerencianet por Aireset
- * Version:           2.2.3
+ * Version:           2.2.4
  * Author:            Aireset
  * Author URI:        https://aireset.com.br
  * License:           GPL-2.0+
@@ -25,13 +25,12 @@ use GN_Includes\Gerencianet_Activator;
 use GN_Includes\Gerencianet_Deactivator;
 
 
-
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'GERENCIANET_OFICIAL_VERSION', '2.2.3' );
+define( 'GERENCIANET_OFICIAL_VERSION', '2.2.4' );
 define( 'GERENCIANET_BOLETO_ID', 'WC_Gerencianet_Boleto' );
 define( 'GERENCIANET_CARTAO_ID', 'WC_Gerencianet_Cartao' );
 define( 'GERENCIANET_PIX_ID', 'WC_Gerencianet_Pix' );
