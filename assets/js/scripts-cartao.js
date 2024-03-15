@@ -105,7 +105,7 @@ jQuery(document).ready(function ($) {
         }
     })
 
-    
+
     if (document.getElementById('gn_cartao_cpf_cnpj')) {
         jQuery('#gn_cartao_cpf_cnpj').keyup(
             function () {
@@ -115,8 +115,8 @@ jQuery(document).ready(function ($) {
         jQuery('#gn_cartao_cpf_cnpj').blur(
             function () {
                 var cpf_cnpj = jQuery('#gn_cartao_cpf_cnpj').val();
-                
-                if(cpf_cnpj != "") {
+
+                if (cpf_cnpj != "") {
                     if (!validate_cpf_cnpj(cpf_cnpj)) {
                         jQuery('#gn_cartao_cpf_cnpj').css('border', '1px solid red');
                         toastError("CPF/CNPJ Inválido");
@@ -133,8 +133,8 @@ jQuery(document).ready(function ($) {
         jQuery('#gn_cartao_birth').blur(
             function () {
                 var date = jQuery('#gn_cartao_birth').val();
-                
-                if(date != "") {
+
+                if (date != "") {
                     if (!verify_date(date)) {
                         jQuery('#gn_cartao_birth').css('border', '1px solid red');
                         toastError('Data de nascimento inválida!');
@@ -151,7 +151,7 @@ jQuery(document).ready(function ($) {
         jQuery('#gn_cartao_expiration').blur(
             function () {
                 var exp = jQuery('#gn_cartao_expiration').val();
-                if(exp != "") {
+                if (exp != "") {
                     if (!validate_cartao_expiration(exp)) {
                         jQuery('#gn_cartao_expiration').css('border', '1px solid red');
                         toastError('Validade do cartão inválida!');
