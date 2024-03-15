@@ -1,38 +1,28 @@
 === Plugin Name ===
-Contributors: Felipe Almeman - Aireset
-Tags: woocommerce, gerencianet, payment, transparent checkout, pix, Boleto, card, brazil, payments brazil, cartão de crédito, efí, efi, efipay, efi bank, efi pay, efípay, efí bank, efí pay
+Contributors: Efí Bank
+Tags: woocommerce, gerencianet, payment, transparent checkout, pix, Boleto, card, brazil, payments brazil, cartão de crédito, efí, efi, efipay, efi bank, efi pay, efípay, efí bank, efí pay, Open Finance
 Requires at least: 5.x
-Tested up to: 8.3
-Stable tag: 2.2.4
+Tested up to: 6.4
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Receba pagamentos por Boleto bancário, Pix e cartão de crédito em sua loja WooCommerce com a Gerencianet.
-
-== Suporte Técnico ==
-*Atenção:*
-Para resolução de problemas abra uma issue no nosso [Github](https://github.com/aireset/efi-gerencianet-woocommerce), envie print, informações de uso para podermos auxiliar na melhor forma, caso precise suporte direto da Efí, use o plugin oficial.
-Para agilizar o atendimento, abra um ticket informando a falha apresentada. Você pode abrir um ticket [Clicando Aqui!](https://sistema.gerencianet.com.br/tickets/criar/)
+Receba pagamentos por Boleto bancário, Pix, Cartão de Crédito e Open Finance em sua loja WooCommerce com a Efí Bank.
 
 == Descrição ==
 
-Este é o não é um Módulo Oficial de integração da Efí/Gerencianet para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por boleto bancário, cartão de crédito e/ou Pix.
+Este é o Plugin Oficial fornecido pela [Efí Bank](https://sejaefi.com.br/) para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por Boleto Bancário, Cartão de Crédito, Pix ou Open Finance. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
 
-Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
+Caso você tenha alguma dúvida ou sugestão, entre em contato conosco pelo site [Clicando AQUI](https://sejaefi.com.br/fale-conosco).
 
-Sendo uma cópia do Módulo Oficial de integração fornecido pela [Gerencianet](https://gerencianet.com.br/fale-conosco/) com alterações.
-
-Caso você tenha alguma dúvida ou sugestão, entre em contato conosco pelo site [Aireset](https://aireset.com.br/).
-
-= Requisitos =
-
-* Versão do PHP: 7.x ou 8.x
-* Versão do WooCommerce: 5.x
-* Versão do WordPress: 5.x
+## Requisitos
+* Versão do PHP: 7.x ou superior
+* Versão do WooCommerce: 5.x ou superior
+* Versão do WordPress: 6.x ou superior
 
 ## Instalação automática 
 
-1. Acesse o link em sua loja "Plugins" -> "Adicionar novo" -> No campo de busca, pesquise por "Efí/Gerencianet por Aireset".
+1. Acesse o link em sua loja "Plugins" -> "Adicionar novo" -> No campo de busca, pesquise por "Efí Bank".
 2. Clique em "Instalar agora".
 4. Após a instalação, clique em "Ativar o Plugin".
 5. Configure o plugin em "WooCommerce" > "Configurações" > "Pagamentos"  e comece a receber pagamentos!
@@ -70,11 +60,6 @@ Se você ainda não tem uma conta digital Efí Bank, [abra a sua agora](https://
 
 ## **Comunidade no Discord**
 
-Participe da comunidade do [Discord](https://comunidade.sejaefi.com.br) da Efí.
+<a href="https://comunidade.sejaefi.com.br/"><img src="https://efipay.github.io/comunidade-discord-efi/assets/img/thumb-repository.png"></a>
 
-== Screenshots ==
-
-1-Exemplo de Métodos ativos  screenshot-1.png
-2-Tela do Pix screenshot-2.png
-3-Tela do Boleto screenshot-3.png
-4-Tela do Cartão de Crédito screenshot-4.png
+Se você tem a necessidade de integrar seu sistema ou aplicação a uma API completa de pagamentos, desejos de trocar experiências e compartilhar seu conhecimento, conecte-se à [comunidade da Efí no Discord](https://comunidade.sejaefi.com.br/).

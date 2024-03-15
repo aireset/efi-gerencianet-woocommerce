@@ -1,16 +1,12 @@
-# Plugin Não-Oficial Gerencianet para Wordpress/Woocommerce
-forked from [efipay/Plugin-Wordpress-Efi](https://github.com/efipay/Plugin-Wordpress-Efi)
+<h1 align="center">Plugin Oficial Efí Bank para Wordpress/Woocommerce</h1>
 
-Receba pagamentos por Boleto bancário, Pix e cartão de crédito em sua loja WooCommerce com a efí/Gerencianet!
-
-## Suporte Técnico
-### Atenção: 
-* Para resolução de problemas abra uma issue no nosso [Github](https://github.com/aireset/efi-gerencianet-woocommerce), envie print, informações de uso para podermos auxiliar na melhor forma, caso precise suporte direto da Efí, use o plugin oficial.
-
+![Banner APIs Efí Pay](https://gnetbr.com/BJgSIUhlYs)
 
 ## Descrição 
 
-Este Modulo é um Fork do Módulo Oficial de integração fornecido pela [Efí](https://gerencianet.com.br/) para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por Boleto Bancário, Cartão de Crédito, Pix ou Open Finance. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
+Este é o Plugin Oficial fornecido pela [Efí Bank](https://sejaefi.com.br/) para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por Boleto Bancário, Cartão de Crédito, Pix ou Open Finance. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
+
+Caso você tenha alguma dúvida ou sugestão, entre em contato conosco pelo site [Clicando AQUI](https://sejaefi.com.br/fale-conosco).
 
 ## Requisitos
 * Versão do PHP: 7.x ou superior
@@ -19,7 +15,7 @@ Este Modulo é um Fork do Módulo Oficial de integração fornecido pela [Efí](
 
 ## Instalação automática 
 
-1. Acesse o link em sua loja "Plugins" -> "Adicionar novo" -> No campo de busca, pesquise por "Efí/Gerencianet por Aireset".
+1. Acesse o link em sua loja "Plugins" -> "Adicionar novo" -> No campo de busca, pesquise por "Efí Bank".
 2. Clique em "Instalar agora".
 4. Após a instalação, clique em "Ativar o Plugin".
 5. Configure o plugin em "WooCommerce" > "Configurações" > "Pagamentos"  e comece a receber pagamentos!
@@ -57,4 +53,6 @@ Se você ainda não tem uma conta digital Efí Bank, [abra a sua agora](https://
 
 ## **Comunidade no Discord**
 
-Participe da comunidade do [Discord](https://comunidade.sejaefi.com.br) da Efí.
+<a href="https://comunidade.sejaefi.com.br/"><img src="https://efipay.github.io/comunidade-discord-efi/assets/img/thumb-repository.png"></a>
+
+Se você tem a necessidade de integrar seu sistema ou aplicação a uma API completa de pagamentos, desejos de trocar experiências e compartilhar seu conhecimento, conecte-se à [comunidade da Efí no Discord](https://comunidade.sejaefi.com.br/).

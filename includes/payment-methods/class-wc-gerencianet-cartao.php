@@ -136,17 +136,6 @@ function init_gerencianet_cartao() {
 				echo wpautop( wp_kses_post( $sandboxWarn ) );
 			}
 
-			global $wp;
-			$cartWoo = WC()->cart;
-			$total = 0;
-			$total = $cartWoo->total;
-			
-			if ( isset($wp->query_vars['order-pay']) && absint($wp->query_vars['order-pay']) > 0 ) {
-				$order_id = absint($wp->query_vars['order-pay']); // The order ID
-				$order    = wc_get_order( $order_id ); // Get the WC_Order Object instance
-				$total = $order->get_Total();
-			}
-
 			echo '<fieldset id="wc-' . esc_attr( $this->id ) . '-cc-form" class="wc-credit-card-form wc-payment-form" style="background:transparent; border: none;">';
 
 			?>
@@ -175,7 +164,7 @@ function init_gerencianet_cartao() {
 					<select id="gn_cartao_installments" name="gn_cartao_installments" style="display:none;width: 100%;border-color: #dcd7ca;"></select>
 				</div>
 				<input id="gn_payment_token" name="gn_payment_token" type="hidden">
-				<input id="gn_payment_total" name="gn_payment_total" type="hidden" value="<?php echo $total; ?>">
+				<input id="gn_payment_total" name="gn_payment_total" type="hidden" value="<?php echo WC()->cart->total; ?>">
 				<script src="<?php echo plugins_url( '../assets/js/vanilla-masker.min.js', plugin_dir_path( __FILE__ ) ); ?>"></script>
 				<script>
 					var options = {

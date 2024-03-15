@@ -21,7 +21,7 @@ require __DIR__ . '/class-gerencianet-i18n.php';
  *
  * @package    Gerencianet_Oficial
  * @subpackage Gerencianet_Oficial/includes
- * @author     Felipe Almeman - Aireset <felipe@aireset.com.br>
+ * @author     Consultoria Técnica <consultoria@gerencianet.com.br>
  */
 class Gerencianet_Oficial {
 
@@ -190,11 +190,11 @@ class Gerencianet_Oficial {
 	function show_hide_payment_methods( $available_gateways ) {
 
 		if ( ! is_checkout() ) {
-			return;
+				return;
 		}
 
 		$boletoSettings = maybe_unserialize( get_option( 'woocommerce_' . GERENCIANET_BOLETO_ID . '_settings' ) );
-		$cardSettings = maybe_unserialize( get_option( 'woocommerce_' . GERENCIANET_CARTAO_ID . '_settings' ) );
+		$cardSettings   = maybe_unserialize( get_option( 'woocommerce_' . GERENCIANET_CARTAO_ID . '_settings' ) );
 
 		if(isset($boletoSettings['gn_billet_banking'])) {
 			$boletoEnabled = $boletoSettings['gn_billet_banking'];
@@ -206,7 +206,7 @@ class Gerencianet_Oficial {
 		
 
 		$current_shipping_method = WC()->session->get( 'chosen_shipping_methods' );
-		$shippingCost = 0;
+		$shippingCost            = 0;
 		foreach ( WC()->cart->get_shipping_packages() as $package_id => $package ) {
 			if ( WC()->session->__isset( 'shipping_for_package_' . $package_id ) ) {
 				foreach ( WC()->session->get( 'shipping_for_package_' . $package_id )['rates'] as $shipping_rate_id => $shipping_rate ) {
@@ -217,18 +217,7 @@ class Gerencianet_Oficial {
 			}
 		}
 
-		global $wp;
-		$cartWoo = WC()->cart;
-		$subtotal = 0;
-		$subtotal = $cartWoo->subtotal;
-
-		if ( isset( $wp->query_vars['order-pay'] ) && absint( $wp->query_vars['order-pay'] ) > 0 ) {
-			$order_id = absint( $wp->query_vars['order-pay'] ); // The order ID
-			$order = wc_get_order( $order_id ); // Get the WC_Order Object instance
-			$subtotal = $order->get_subtotal();
-		}
-
-		if ( ( $subtotal + $shippingCost ) < 5 ) {
+		if ( isset( WC()->cart->subtotal ) && ( ( WC()->cart->subtotal + $shippingCost ) < 5 ) ) {
 			wc_clear_notices();
 			if ( $boletoEnabled == 'yes' && $cardEnabled == 'yes' ) {
 				wc_add_notice( 'O pagamento via Boleto ou Cartão de Crédito só está disponível em pedidos acima de R$5,00', 'notice' );
