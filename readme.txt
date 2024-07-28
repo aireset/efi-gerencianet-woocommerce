@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Felipe Almeman - Aireset
 Tags: woocommerce, gerencianet, payment, transparent checkout, pix, Boleto, card, brazil, payments brazil, cartão de crédito, efí, efi, efipay, efi bank, efi pay, efípay, efí bank, efí pay
-Requires at least: 5.x
+Requires at least: 6.x
 Tested up to: 8.3
 Stable tag: 2.3.0
 License: GPLv2 or later
