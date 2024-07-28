@@ -43,7 +43,7 @@ function init_gerencianet_pix() {
 			$this->enabled     = $this->get_option( 'gn_pix' );
 
 			$this->gn_pix_key               = sanitize_text_field( $this->get_option( 'gn_pix_key' ) );
-			$this->gn_certificate_file      = sanitize_text_field( $this->get_option( 'gn_certificate_file' ) );
+			$this->gn_certificate_file              = sanitize_text_field( $this->get_option( 'gn_certificate_file' ) );
 			$this->gn_pix_discount          = sanitize_text_field( $this->get_option( 'gn_pix_discount' ) );
 			$this->gn_pix_discount_shipping = sanitize_text_field( $this->get_option( 'gn_pix_discount_shipping' ) );
 			$this->gn_pix_number_hours      = sanitize_text_field( $this->get_option( 'gn_pix_number_hours' ) );
@@ -289,7 +289,7 @@ function init_gerencianet_pix() {
 			foreach ( $order->get_items( $types ) as $item_id => $item ) {
 				switch ( $item->get_type() ) {
 					case 'fee':
-						$value += $item->get_subtotal();
+						$value += $item->get_total();
 						break;
 					case 'shipping':
 						$value += $item->get_total();
@@ -309,8 +309,10 @@ function init_gerencianet_pix() {
 				}
 			}
 
-			$value += $order->get_total_tax();
-
+			if($order->get_total_tax()>0) {
+				$value += $order->get_total_tax();
+			}
+			
 			$discount = 0;
 
 			if ( $this->get_option( 'gn_pix_discount' ) != '' && $this->get_option( 'gn_pix_discount' ) != '0' ) {
@@ -403,8 +405,19 @@ function init_gerencianet_pix() {
 		}
 
 		public function webhook() {
-			header( 'HTTP/1.0 200 OK' );
-			$this->successful_webhook( file_get_contents( 'php://input' ) );
+
+			if(isset($_GET['hmac'])) {
+				$hmac = $_GET['hmac'];
+				$credential = md5($this->gn_sandbox  == 'yes' ? $this->get_option( 'gn_client_id_homologation') : $this->get_option( 'gn_client_id_production')); 
+				if($hmac == $credential) {
+					header( 'HTTP/1.0 200 OK' );
+					$this->successful_webhook( file_get_contents( 'php://input' ) );
+				} else {
+					header('HTTP/1.1 403 Forbidden');
+					gn_log("Não foi possível receber a notificação do Pix");
+				}
+			}
+
 		}
 
 		public function registerWebhook() {
@@ -412,7 +425,7 @@ function init_gerencianet_pix() {
 
 			try {
 				$pix_key  = $this->get_option( 'gn_pix_key' );
-				$url      = strtolower( $woocommerce->api_request_url( GERENCIANET_PIX_ID ) . '?ignore=' );
+				$url      = strtolower( $woocommerce->api_request_url( GERENCIANET_PIX_ID ));
 				$response = $this->gerencianetSDK->update_webhook( $pix_key, $url );
 			} catch ( \Throwable $th ) {
 				gn_log( $th );

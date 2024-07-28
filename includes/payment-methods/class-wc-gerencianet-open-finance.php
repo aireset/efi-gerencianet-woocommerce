@@ -325,7 +325,7 @@ function init_gerencianet_open_finance() {
 			foreach ( $order->get_items( $types ) as $item_id => $item ) {
 				switch ( $item->get_type() ) {
 					case 'fee':
-						$value += $item->get_subtotal();
+						$value += $item->get_total();
 						break;
 					case 'shipping':
 						$value += $item->get_total();
@@ -345,8 +345,9 @@ function init_gerencianet_open_finance() {
 				}
 			}
 
-			$value += $order->get_total_tax();
-
+			if($order->get_total_tax()>0) {
+				$value += $order->get_total_tax();
+			}
 
 			$cpf_cnpj = str_replace( '.', '', sanitize_text_field( $_POST['gn_open_finance_cpf_cnpj'] ) );
 			$cpf_cnpj = str_replace( '-', '', $cpf_cnpj );
@@ -390,7 +391,7 @@ function init_gerencianet_open_finance() {
 				wc_reduce_stock_levels( $order_id );
 				$woocommerce->cart->empty_cart();
 
-    gn_log('processando');
+    			gn_log('processando');
                 gn_log($charge['identificadorPagamento']);
 				update_post_meta( $order_id, '_gn_of_identificador_pagamento', $charge['identificadorPagamento'] );
 
@@ -424,6 +425,7 @@ function init_gerencianet_open_finance() {
 			try {
 				$redirectUrl = strtolower( $woocommerce->api_request_url( GERENCIANET_OPEN_FINANCE_ID.'-order-received') );
 				$url      = strtolower( $woocommerce->api_request_url( GERENCIANET_OPEN_FINANCE_ID ));
+				// hmac criado dentro da SDK
 				$response = $this->gerencianetSDK->update_webhook_open_finance($url, $redirectUrl);
 			} catch ( \Throwable $th ) {
 				gn_log( $th );

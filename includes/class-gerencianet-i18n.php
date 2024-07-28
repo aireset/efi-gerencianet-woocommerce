@@ -8,11 +8,11 @@ namespace GN_Includes;
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       www.gerencianet.com.br
+ * @link       aireset.com.br
  *
  * @package    Gerencianet_Oficial
  * @subpackage Gerencianet_Oficial/includes
- * @author     Felipe Almeman - Aireset <felipe@aireset.com.br>
+ * @author     Felipe Almeman <felipe@aireset.com.br>
  */
 class Gerencianet_I18n {
 

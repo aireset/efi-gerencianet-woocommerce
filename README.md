@@ -1,4 +1,5 @@
-# Plugin Não-Oficial Gerencianet para Wordpress/Woocommerce
+<h1 align="center">Plugin Não-Oficial Efí Bank (Gerencianet) para Wordpress/Woocommerce</h1>
+
 forked from [efipay/Plugin-Wordpress-Efi](https://github.com/efipay/Plugin-Wordpress-Efi)
 
 Receba pagamentos por Boleto bancário, Pix e cartão de crédito em sua loja WooCommerce com a efí/Gerencianet!
@@ -10,7 +11,7 @@ Receba pagamentos por Boleto bancário, Pix e cartão de crédito em sua loja Wo
 
 ## Descrição 
 
-Este Modulo é um Fork do Módulo Oficial de integração fornecido pela [Efí](https://gerencianet.com.br/) para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por Boleto Bancário, Cartão de Crédito, Pix ou Open Finance. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
+Este PLugin é um Fork do Módulo Oficial de integração fornecido pela [Efí](https://gerencianet.com.br/) para WooCommerce. Com ele, o proprietário da loja pode optar por receber pagamentos por Boleto Bancário, Cartão de Crédito, Pix ou Open Finance. Todo processo é realizado por meio do checkout transparente. Com isso, o comprador não precisa sair do site da loja para efetuar o pagamento.
 
 ## Requisitos
 * Versão do PHP: 7.x ou superior

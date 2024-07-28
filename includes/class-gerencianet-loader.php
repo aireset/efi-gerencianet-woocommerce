@@ -5,7 +5,7 @@ namespace GN_Includes;
 /**
  * Register all actions and filters for the plugin
  *
- * @link       www.gerencianet.com.br
+ * @link       aireset.com.br
  *
  * @package    Gerencianet_Oficial
  * @subpackage Gerencianet_Oficial/includes
@@ -20,7 +20,7 @@ namespace GN_Includes;
  *
  * @package    Gerencianet_Oficial
  * @subpackage Gerencianet_Oficial/includes
- * @author     Felipe Almeman - Aireset <felipe@aireset.com.br>
+ * @author     Felipe Almeman <felipe@aireset.com.br>
  */
 class Gerencianet_Loader {
 
